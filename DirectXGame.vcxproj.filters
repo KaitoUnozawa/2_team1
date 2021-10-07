@@ -37,6 +37,9 @@
     <Filter Include="ソース ファイル\Audio">
       <UniqueIdentifier>{ac72d6ab-9c10-4cbf-9655-7937f1b3ef28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\DebugText">
+      <UniqueIdentifier>{dc5dc9ea-a4f3-4b2e-9527-6c24c503499c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -64,7 +67,7 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
     <ClInclude Include="DebugText.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\DebugText</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +99,7 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
     <ClCompile Include="DebugText.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\DebugText</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

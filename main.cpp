@@ -790,7 +790,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		////デバッグテキスト表示
-		debugText.PrintDebugText(spriteCommon, "I am goat.", 200, 100);
+		//表示したい文字を入力
+		debugText.PrintDebugText(spriteCommon, "I am goat.", 400, 100);
+		debugText.PrintDebugText(spriteCommon, "I'm not egg.", 400, 150, 1.0f);
+		//デバッグテキスト描画
+		debugText.DrawAll(cmdList.Get(), spriteCommon, dev.Get());
 
 
 		//////４．描画コマンド　ここまで
