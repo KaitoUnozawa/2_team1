@@ -27,6 +27,7 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"xaudio2.lib")
 
+//テスト！！！
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
