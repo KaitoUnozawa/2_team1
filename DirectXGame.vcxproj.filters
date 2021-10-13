@@ -31,14 +31,14 @@
     <Filter Include="ソース ファイル\Player">
       <UniqueIdentifier>{247e8a5d-3b0a-449d-b67f-1a08fd19c4ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\WindowsAPI">
-      <UniqueIdentifier>{327f9434-943b-424c-83af-f6cc3d0280d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Audio">
       <UniqueIdentifier>{ac72d6ab-9c10-4cbf-9655-7937f1b3ef28}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\DebugText">
       <UniqueIdentifier>{dc5dc9ea-a4f3-4b2e-9527-6c24c503499c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base">
+      <UniqueIdentifier>{327f9434-943b-424c-83af-f6cc3d0280d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,7 +55,7 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="WindowsAPI.h">
-      <Filter>ソース ファイル\WindowsAPI</Filter>
+      <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ソース ファイル\Camera</Filter>
@@ -68,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="DebugText.h">
       <Filter>ソース ファイル\DebugText</Filter>
+    </ClInclude>
+    <ClInclude Include="SafeDelete.h">
+      <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +87,7 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="WindowsAPI.cpp">
-      <Filter>ソース ファイル\WindowsAPI</Filter>
+      <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>

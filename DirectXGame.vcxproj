@@ -150,6 +150,7 @@
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="WindowsAPI.h" />
   </ItemGroup>
   <ItemGroup>
