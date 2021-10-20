@@ -147,6 +147,7 @@
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3D.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object2D.cpp" />

@@ -40,6 +40,9 @@
     <Filter Include="ソース ファイル\Base">
       <UniqueIdentifier>{327f9434-943b-424c-83af-f6cc3d0280d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{35c27ec9-e306-49ea-a09f-b2eb21c4ce0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -75,6 +78,9 @@
     <ClInclude Include="DirectXCommon.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
@@ -92,9 +98,6 @@
     <ClCompile Include="WindowsAPI.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
@@ -109,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="DirectXCommon.cpp">
       <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
