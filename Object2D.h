@@ -1,15 +1,11 @@
 #pragma once
 #include<DirectXTex.h>
 #include<wrl.h>
-
 #include<d3d12.h>
 #include<d3dx12.h>
-
 #include<vector>
 #include<string>
-
 #include<DirectXMath.h>
-
 #include<d3dcompiler.h>
 
 using namespace Microsoft::WRL;
@@ -19,7 +15,7 @@ using namespace DirectX;
 
 class Object2D
 {
-public:
+public:  //メンバ変数、構造体
 	//パイプラインセット構造体
 	struct PipelineSet
 	{
@@ -93,6 +89,8 @@ public:
 		XMFLOAT4 color; //色(RGBA)
 		XMMATRIX mat; //3D変換行列
 	};
+
+
 
 
 	////スプライト生成用関数
