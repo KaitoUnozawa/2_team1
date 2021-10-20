@@ -3,6 +3,15 @@
 #include<xaudio2.h>
 #include<wrl.h>
 
+//オーディオコールバック
+class XAudio2VoiceCallback : public IXAudio2VoiceCallback
+{
+public:
+	//ボイス処理パスの開始時
+	void OnVoiceProcessingPassStart(UINT32 Byte)
+};
+
+//オーディオ
 class Audio
 {
 private:
@@ -10,12 +19,11 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private: //変数
-	//ComPtr<IXAudio2> xAudio2;
+	ComPtr<IXAudio2> xAudio2;
 	IXAudio2MasteringVoice* masterVoice;
 
 
 public: //構造体
-	ComPtr<IXAudio2> xAudio2;
 	//チャンクヘッダ
 	struct ChunkHeader
 	{
@@ -52,6 +60,8 @@ public: //関数
 	SoundData SoundLoadWave(const char* filename);
 	//音声再生
 	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
+	//ループ再生
+	void SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
 	//音声データ解放
 	void SoundUnLoad(SoundData* soundData);
 

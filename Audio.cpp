@@ -103,7 +103,47 @@ void Audio::SoundPlayWave(IXAudio2 * xAudio2, const SoundData & soundData)
 
 	//波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
+	if (FAILED(result)) {
+		delete[] soundData.pBuffer;
+		assert(0);
+		return;
+	}
 	result = pSourceVoice->Start();
+	if (FAILED(result)) {
+		delete[] soundData.pBuffer;
+		assert(0);
+		return;
+	}
+}
+
+void Audio::SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData)
+{
+	HRESULT result;
+
+	//波形フォーマットを元にSourceVoiceの生成
+	IXAudio2SourceVoice* pSourceVoice = nullptr;
+	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex, 0, 2.0f, &voiceCallback);
+	assert(SUCCEEDED(result));
+
+	//再生する波形データの設定
+	XAUDIO2_BUFFER buf{};
+	buf.pAudioData = soundData.pBuffer;
+	buf.AudioBytes = soundData.bufferSize;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+
+	//波形データの再生
+	result = pSourceVoice->SubmitSourceBuffer(&buf);
+	if (FAILED(result)) {
+		delete[] soundData.pBuffer;
+		assert(0);
+		return;
+	}
+	result = pSourceVoice->Start();
+	if (FAILED(result)) {
+		delete[] soundData.pBuffer;
+		assert(0);
+		return;
+	}
 }
 
 //データ解放
