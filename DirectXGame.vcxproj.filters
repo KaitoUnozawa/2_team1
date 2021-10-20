@@ -72,6 +72,9 @@
     <ClInclude Include="SafeDelete.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXCommon.h">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="DebugText.cpp">
       <Filter>ソース ファイル\DebugText</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXCommon.cpp">
+      <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
