@@ -31,154 +31,19 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-//////オーディオ
-////チャンクヘッダ
-//struct ChunkHeader
-//{
-//	char id[4]; //チャンク毎のID
-//	int32_t size; //チャンクサイズ
-//};
-//
-////RIFFヘッダチャンク
-//struct RiffHeader
-//{
-//	ChunkHeader chunk; //"RIFF"
-//	char type[4]; //"WAVE"
-//};
-//
-////FMTチャンク
-//struct FormatChunk
-//{
-//	ChunkHeader chunk; //"fmt"
-//	WAVEFORMATEX fmt; //波形フォーマット
-//};
-//
-////音声データ
-//struct SoundData
-//{
-//	//波形フォーマット
-//	WAVEFORMATEX wfex;
-//	//バッファの先頭アドレス
-//	BYTE* pBuffer;
-//	//バッファのサイズ
-//	unsigned int bufferSize;
-//};
-//
-//
-////音声データ読み込み関数
-//SoundData SoundLoadWave(const char* filename)
-//{
-//	HRESULT result;
-//
-//	////ファイルオープン
-//	//ファイル入力ストリームのインスタンス
-//	std::ifstream file;
-//	//wavファイルをバイナリモードで開く
-//	file.open(filename, std::ios_base::binary);
-//	//ファイルオープン失敗を検出する
-//	assert(file.is_open());
-//
-//
-//	////wavデータ読み込み
-//	//RIFFヘッダーの読み込み
-//	RiffHeader riff;
-//	file.read((char*)&riff, sizeof(riff));
-//	//ファイルがRIFFかチェック
-//	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
-//		assert(0);
-//	}
-//	//タイプがWAVEかチェック
-//	if (strncmp(riff.type, "WAVE", 4) != 0) {
-//		assert(0);
-//	}
-//	//Formatチャンクの読み込み
-//	FormatChunk format = {};
-//	//チャンクヘッダーの確認
-//	file.read((char*)&format, sizeof(ChunkHeader));
-//	if (strncmp(format.chunk.id, "fmt ", 4) != 0) {
-//		assert(0);
-//	}
-//
-//	//チャンク本体の読み込み
-//	assert(format.chunk.size <= sizeof(format.fmt));
-//	file.read((char*)&format.fmt, format.chunk.size);
-//	//Dataチャンクの読み込み
-//	ChunkHeader data;
-//	file.read((char*)&data, sizeof(data));
-//	//JUNKチャンクを検出した場合
-//	if (strncmp(data.id, "JUNK", 4) == 0) {
-//		//読み取り位置をJUNKチャンクの終わりまで進める
-//		file.seekg(data.size, std::ios_base::cur);
-//		//再読み込み
-//		file.read((char*)&data, sizeof(data));
-//	}
-//	if (strncmp(data.id, "data", 4) != 0) {
-//		assert(0);
-//	}
-//
-//	//Dataチャンクのデータ部(波形データ)の読み込み
-//	char* pBuffer = new char[data.size];
-//	file.read(pBuffer, data.size);
-//
-//	//Waveファイルを閉じる
-//	file.close();
-//
-//
-//	//読み込んだ音声データをreturnする
-//	SoundData soundData = {};
-//
-//	soundData.wfex = format.fmt;
-//	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-//	soundData.bufferSize = data.size;
-//
-//	return soundData;
-//}
-//
-////音声データ解放関数
-//void SoundUnLoad(SoundData* soundData)
-//{
-//	//バッファのメモリを解放
-//	delete[] soundData->pBuffer;
-//
-//	soundData->pBuffer = 0;
-//	soundData->bufferSize = 0;
-//	soundData->wfex = {};
-//}
-//
-////音声再生関数
-//void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData)
-//{
-//	HRESULT result;
-//
-//	//波形フォーマットを元にSourceVoiceの生成
-//	IXAudio2SourceVoice* pSourceVoice = nullptr;
-//	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-//	assert(SUCCEEDED(result));
-//
-//	//再生する波形データの設定
-//	XAUDIO2_BUFFER buf{};
-//	buf.pAudioData = soundData.pBuffer;
-//	buf.AudioBytes = soundData.bufferSize;
-//	buf.Flags = XAUDIO2_END_OF_STREAM;
-//
-//	//波形データの再生
-//	result = pSourceVoice->SubmitSourceBuffer(&buf);
-//	result = pSourceVoice->Start();
-//}
 
-
-//ウィンドウプロシージャ
-LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
-{
-	//メッセージで分岐
-	switch (msg)
-	{
-		case WM_DESTROY: //ウィンドウが破棄された
-			PostQuitMessage(0); //OSに対して、アプリの終了を伝える
-			return 0;
-	}
-	return DefWindowProc(hwnd, msg, wparam, lparam); //標準の処理を行う
-}
+////ウィンドウプロシージャ
+//LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+//{
+//	//メッセージで分岐
+//	switch (msg)
+//	{
+//		case WM_DESTROY: //ウィンドウが破棄された
+//			PostQuitMessage(0); //OSに対して、アプリの終了を伝える
+//			return 0;
+//	}
+//	return DefWindowProc(hwnd, msg, wparam, lparam); //標準の処理を行う
+//}
 
 
 //Windowsアプリでのエントリーポイント（main関数）
@@ -221,134 +86,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon = new DirectXCommon();
 	dxCommon->Init(win);
 
-	////DXGIファクトリーの生成
-	//result = CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory));
-	////アダプターの列挙用
-	//std::vector<ComPtr<IDXGIAdapter1>> adapters;
-	////ここに特定の名前を持つアダプターオブジェクトが入る
-	//ComPtr<IDXGIAdapter1> tmpAdapter;
-	//for (int i = 0;
-	//	 dxgiFactory->EnumAdapters1(i, &tmpAdapter) !=
-	//	 DXGI_ERROR_NOT_FOUND;
-	//	 i++)
-	//{
-	//	adapters.push_back(tmpAdapter); //動的配列に追加する
-	//}
-	//for (int i = 0; i < adapters.size(); i++)
-	//{
-	//	DXGI_ADAPTER_DESC1 adesc;
-	//	adapters[i]->GetDesc1(&adesc); //アダプターの情報を取得
-	//	//ソフトウェアデバイスを回避
-	//	if (adesc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE)
-	//	{
-	//		continue;
-	//	}
-	//	std::wstring strDesc = adesc.Description; //アダプター名
-	//	//Intel UHD Graphics（オンボードグラフィック）を回避
-	//	if (strDesc.find(L"Intel") == std::wstring::npos)
-	//	{
-	//		tmpAdapter = adapters[i]; //採用
-	//		break;
-	//	}
-	//}
-	////対応レベルの配列
-	//D3D_FEATURE_LEVEL levels[] =
-	//{
-	//	D3D_FEATURE_LEVEL_12_1,
-	//	D3D_FEATURE_LEVEL_12_0,
-	//	D3D_FEATURE_LEVEL_11_1,
-	//	D3D_FEATURE_LEVEL_11_0
-	//};
-	//D3D_FEATURE_LEVEL featureLevel;
-	//for (int i = 0; i < _countof(levels); i++)
-	//{
-	//	//採用したアダプターでデバイスを生成
-	//	result = D3D12CreateDevice(tmpAdapter.Get(), levels[i], IID_PPV_ARGS(&dev));
-	//	if (result == S_OK)
-	//	{
-	//		//デバイスを生成できた時点でループを抜ける
-	//		featureLevel = levels[i];
-	//		break;
-	//	}
-	//}
-	////コマンドアロケータを生成
-	//result = dev->CreateCommandAllocator(
-	//	D3D12_COMMAND_LIST_TYPE_DIRECT,
-	//	IID_PPV_ARGS(&cmdAllocator));
-	////コマンドリストを生成
-	//result = dev->CreateCommandList(0,
-	//								D3D12_COMMAND_LIST_TYPE_DIRECT,
-	//								cmdAllocator.Get(), nullptr,
-	//								IID_PPV_ARGS(&cmdList));
-	////標準設定でコマンドキューを生成
-	//D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
-	//dev->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&cmdQueue));
-	////各種設定をしてスワップチェーンを生成
-	//DXGI_SWAP_CHAIN_DESC1 swapchainDesc{};
-	//swapchainDesc.Width = 1280;
-	//swapchainDesc.Height = 720;
-	//swapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //色情報の書式
-	//swapchainDesc.SampleDesc.Count = 1; //マルチサンプルしない
-	//swapchainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER; //バックバッファ用
-	//swapchainDesc.BufferCount = 2; //バッファ数を2つに設定
-	//swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; //フリップ後は破棄
-	//swapchainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-	////IDXGISwapChain1のComPtrを用意
-	//ComPtr<IDXGISwapChain1> swapchain1;
-	////スワップチェーンの生成
-	//dxgiFactory->CreateSwapChainForHwnd(
-	//	cmdQueue.Get(),
-	//	WindowsAPI::hwnd,
-	//	&swapchainDesc,
-	//	nullptr,
-	//	nullptr,
-	//	&swapchain1);
-	////生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換する
-	//swapchain1.As(&swapchain);
-	////各種設定をしてデスクリプタヒープを生成
-	//D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
-	//heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; //レンダーターゲットビュー
-	//heapDesc.NumDescriptors = 2; //裏表の2つ
-	//dev->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&rtvHeaps));
-	////裏表の2つ分について
-	//std::vector<ComPtr<ID3D12Resource>> backBuffers(2);
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	//スワップチェーンからバッファを取得
-	//	result = swapchain->GetBuffer(i, IID_PPV_ARGS(&backBuffers[i]));
-	//	//レンダーターゲットビューの生成
-	//	dev->CreateRenderTargetView(
-	//		backBuffers[i].Get(),
-	//		nullptr,
-	//		CD3DX12_CPU_DESCRIPTOR_HANDLE(
-	//			rtvHeaps->GetCPUDescriptorHandleForHeapStart(), //ヒープの先頭アドレス
-	//			i, //デスクリプタの番号
-	//			dev->GetDescriptorHandleIncrementSize(heapDesc.Type) //デスクリプタ1つ分のサイズ
-	//		));
-	//
-	//////深度バッファリソースの生成
-	//ComPtr<ID3D12Resource> depthBuffer;
-	////深度バッファリソース設定
-	//CD3DX12_RESOURCE_DESC depthResDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-	//	DXGI_FORMAT_D32_FLOAT,
-	//	WindowsAPI::window_width,
-	//	WindowsAPI::window_height,
-	//	1, 0,
-	//	1, 0,
-	//	D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
-	////深度バッファの生成
-	//result = dev->CreateCommittedResource(
-	//	&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&depthResDesc,
-	//	D3D12_RESOURCE_STATE_DEPTH_WRITE, //深度値書き込みに使用
-	//	&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT,1.0f,0),
-	//	IID_PPV_ARGS(&depthBuffer));
-	////フェンスの生成
-	//ComPtr<ID3D12Fence> fence;
-	//UINT64 fenceVal = 0;
-	//result = dev->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
-
 
 	//サウンド再生
 	//ComPtr<IXAudio2> xAudio2;
@@ -389,137 +126,137 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//Object3D::Object object3ds[OBJECT_NUM];
 
 
-	//頂点データ構造体
-	struct Vertex
-	{
-		XMFLOAT3 pos; //xyz座標
-		XMFLOAT3 normal; //法線ベクトル
-		XMFLOAT2 uv; //uv座標
-	};
+	////頂点データ構造体
+	//struct Vertex
+	//{
+	//	XMFLOAT3 pos; //xyz座標
+	//	XMFLOAT3 normal; //法線ベクトル
+	//	XMFLOAT2 uv; //uv座標
+	//};
 
-	//頂点データ
-	const int DIV = 3; //何角錐
-	const float radius = 10.0f; //半径の大きさ
-	const float topHeight = 15.0f; //天井の高さ
-	Vertex vertices[DIV + 1 + 1];
-	for (int i = 0; i < DIV; i++)
-	{
-		vertices[i].pos.x = radius * sinf(2 * XM_PI / DIV * i);
-		vertices[i].pos.y = radius * cosf(2 * XM_PI / DIV * i);
-		vertices[i].pos.z = 0;
-		vertices[i].uv = { 0.0f,1.0f };
-	};
-	vertices[DIV].pos = { 0,0,0 };
-	vertices[DIV].uv = { 1.0f,1.0f };
-	vertices[DIV + 1].pos = { 0,0,-topHeight };
-	vertices[DIV + 1].uv = { 1.0f,0.0f };
+	////頂点データ
+	//const int DIV = 3; //何角錐
+	//const float radius = 10.0f; //半径の大きさ
+	//const float topHeight = 15.0f; //天井の高さ
+	//Vertex vertices[DIV + 1 + 1];
+	//for (int i = 0; i < DIV; i++)
+	//{
+	//	vertices[i].pos.x = radius * sinf(2 * XM_PI / DIV * i);
+	//	vertices[i].pos.y = radius * cosf(2 * XM_PI / DIV * i);
+	//	vertices[i].pos.z = 0;
+	//	vertices[i].uv = { 0.0f,1.0f };
+	//};
+	//vertices[DIV].pos = { 0,0,0 };
+	//vertices[DIV].uv = { 1.0f,1.0f };
+	//vertices[DIV + 1].pos = { 0,0,-topHeight };
+	//vertices[DIV + 1].uv = { 1.0f,0.0f };
 
-	//頂点インデックス
-	unsigned short indices[] = {
-		1,0,3,
-		2,1,3,
-		0,2,3,
+	////頂点インデックス
+	//unsigned short indices[] = {
+	//	1,0,3,
+	//	2,1,3,
+	//	0,2,3,
 
-		0,1,4,
-		1,2,4,
-		2,0,4,
-	};
-
-
-
-	//頂点データ全体のサイズ＝頂点データ1つ分のサイズ＊頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * _countof(vertices));
-	//インデックスデータ全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * _countof(indices));
-
-	//頂点バッファの生成
-	ComPtr<ID3D12Resource> vertBuff;
-	result = dxCommon->GetDevice()->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), //アップロード可能
-		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer(sizeVB),
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&vertBuff));
-
-	//インデックスバッファの生成
-	ComPtr<ID3D12Resource> indexBuff;
-	result = dxCommon->GetDevice()->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), //アップロード可能
-		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer(sizeIB),
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&indexBuff));
+	//	0,1,4,
+	//	1,2,4,
+	//	2,0,4,
+	//};
 
 
-	//法線ベクトルの計算
-	for (int i = 0; i < _countof(indices) / 3; i++)
-	{//三角形1つごとに計算していく
-		//三角形のインデックスを取り出して一時的な変数に入れる
-		unsigned short idx0 = indices[i * 3 + 0];
-		unsigned short idx1 = indices[i * 3 + 1];
-		unsigned short idx2 = indices[i * 3 + 2];
 
-		//三角形を構成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices[idx0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices[idx1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices[idx2].pos);
+	////頂点データ全体のサイズ＝頂点データ1つ分のサイズ＊頂点データの要素数
+	//UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * _countof(vertices));
+	////インデックスデータ全体のサイズ
+	//UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * _countof(indices));
 
-		//p0->p1ベクトル,p0->p2ベクトルを計算（ベクトルの減算）
-		XMVECTOR v1 = XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = XMVectorSubtract(p2, p0);
-		//外積は両方から垂直なベクトル
-		XMVECTOR normal = XMVector3Cross(v1, v2);
-		//正規化
-		normal = XMVector3Normalize(normal);
+	////頂点バッファの生成
+	//ComPtr<ID3D12Resource> vertBuff;
+	//result = dxCommon->GetDevice()->CreateCommittedResource(
+	//	&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), //アップロード可能
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&CD3DX12_RESOURCE_DESC::Buffer(sizeVB),
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&vertBuff));
 
-		//求めた法線を頂点データに代入
-		XMStoreFloat3(&vertices[idx0].normal, normal);
-		XMStoreFloat3(&vertices[idx1].normal, normal);
-		XMStoreFloat3(&vertices[idx2].normal, normal);
-	}
-
-
-	//頂点バッファへのデータ転送
-	// GPU上のバッファに対応した仮想メモリを取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	// 全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++)
-	{
-		vertMap[i] = vertices[i];   // 座標をコピー
-	}
-	// マップを解除
-	vertBuff->Unmap(0, nullptr);
-
-	//インデックスバッファへのデータ転送
-	//GPU上のバッファに対応した仮想メモリを取得
-	unsigned short* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	//全インデックスに対して
-	for (int i = 0; i < _countof(indices); i++)
-	{
-		indexMap[i] = indices[i];   //インデックスをコピー
-	}
-	//繋がりを解除
-	indexBuff->Unmap(0, nullptr);
+	////インデックスバッファの生成
+	//ComPtr<ID3D12Resource> indexBuff;
+	//result = dxCommon->GetDevice()->CreateCommittedResource(
+	//	&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), //アップロード可能
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&CD3DX12_RESOURCE_DESC::Buffer(sizeIB),
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&indexBuff));
 
 
-	//頂点バッファビューの作成
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(Vertex);
+	////法線ベクトルの計算
+	//for (int i = 0; i < _countof(indices) / 3; i++)
+	//{//三角形1つごとに計算していく
+	//	//三角形のインデックスを取り出して一時的な変数に入れる
+	//	unsigned short idx0 = indices[i * 3 + 0];
+	//	unsigned short idx1 = indices[i * 3 + 1];
+	//	unsigned short idx2 = indices[i * 3 + 2];
 
-	//インデックスバッファビューの作成
-	D3D12_INDEX_BUFFER_VIEW ibView{};
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	//	//三角形を構成する頂点座標をベクトルに代入
+	//	XMVECTOR p0 = XMLoadFloat3(&vertices[idx0].pos);
+	//	XMVECTOR p1 = XMLoadFloat3(&vertices[idx1].pos);
+	//	XMVECTOR p2 = XMLoadFloat3(&vertices[idx2].pos);
+
+	//	//p0->p1ベクトル,p0->p2ベクトルを計算（ベクトルの減算）
+	//	XMVECTOR v1 = XMVectorSubtract(p1, p0);
+	//	XMVECTOR v2 = XMVectorSubtract(p2, p0);
+	//	//外積は両方から垂直なベクトル
+	//	XMVECTOR normal = XMVector3Cross(v1, v2);
+	//	//正規化
+	//	normal = XMVector3Normalize(normal);
+
+	//	//求めた法線を頂点データに代入
+	//	XMStoreFloat3(&vertices[idx0].normal, normal);
+	//	XMStoreFloat3(&vertices[idx1].normal, normal);
+	//	XMStoreFloat3(&vertices[idx2].normal, normal);
+	//}
+
+
+	////頂点バッファへのデータ転送
+	//// GPU上のバッファに対応した仮想メモリを取得
+	//Vertex* vertMap = nullptr;
+	//result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	//// 全頂点に対して
+	//for (int i = 0; i < _countof(vertices); i++)
+	//{
+	//	vertMap[i] = vertices[i];   // 座標をコピー
+	//}
+	//// マップを解除
+	//vertBuff->Unmap(0, nullptr);
+
+	////インデックスバッファへのデータ転送
+	////GPU上のバッファに対応した仮想メモリを取得
+	//unsigned short* indexMap = nullptr;
+	//result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	////全インデックスに対して
+	//for (int i = 0; i < _countof(indices); i++)
+	//{
+	//	indexMap[i] = indices[i];   //インデックスをコピー
+	//}
+	////繋がりを解除
+	//indexBuff->Unmap(0, nullptr);
+
+
+	////頂点バッファビューの作成
+	//D3D12_VERTEX_BUFFER_VIEW vbView{};
+	//vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	//vbView.SizeInBytes = sizeVB;
+	//vbView.StrideInBytes = sizeof(Vertex);
+
+	////インデックスバッファビューの作成
+	//D3D12_INDEX_BUFFER_VIEW ibView{};
+	//ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	//ibView.Format = DXGI_FORMAT_R16_UINT;
+	//ibView.SizeInBytes = sizeIB;
 
 	//3Dオブジェクト用パイプライン生成
-	Object3D::ObjectCommon objectCommon;
+	Object3D::Object objectCommon;
 	objectCommon = Object3D::ObjectCommonCreate(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height);
 	//スプライト用パイプライン生成
 	Object2D::SpriteCommon spriteCommon;
@@ -724,7 +461,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		////描画コマンド
 		//描画処理関数の呼び出し
-		player.Draw(dxCommon->GetDevice(), dxCommon->GetCommandList(), objectCommon, vbView, ibView, _countof(indices), nowCam.matView);
+		//player.Draw(dxCommon->GetDevice(), dxCommon->GetCommandList(), objectCommon, vbView, ibView, _countof(indices), nowCam.matView);
 
 
 		////スプライト描画用

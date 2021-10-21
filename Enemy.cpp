@@ -16,5 +16,6 @@ void Enemy::Draw(ID3D12Device * dev, ID3D12GraphicsCommandList * cmdList, const 
 {
 	//•`‰æ
 	Object3D::ObjectUpdate(enemy, matView, objectCommon);
+	Object3D::Update();
 	Object3D::ObjectDraw(enemy, objectCommon, dev, cmdList, vbView, ibView, numIndices);
 }

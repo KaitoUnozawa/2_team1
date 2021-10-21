@@ -146,12 +146,10 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3D.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="WindowsAPI.h" />
   </ItemGroup>
@@ -160,13 +158,11 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="Object3D.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="WindowsAPI.cpp" />
   </ItemGroup>
   <ItemGroup>

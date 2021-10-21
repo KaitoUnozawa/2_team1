@@ -11,7 +11,7 @@ using namespace DirectX;
 class Player
 {
 public:
-	Object3D::Object player; //Ž©‹@
+	Object3D player; //Ž©‹@
 	int HP; //‘Ì—Í
 
 

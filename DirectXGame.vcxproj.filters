@@ -48,9 +48,6 @@
     <ClInclude Include="KeyboardInput.h">
       <Filter>ソース ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
@@ -62,9 +59,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ソース ファイル\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ソース ファイル\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Audio.h">
       <Filter>ソース ファイル\Audio</Filter>
@@ -89,9 +83,6 @@
     <ClCompile Include="Object3D.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Object2D.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -100,9 +91,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
       <Filter>ソース ファイル\Audio</Filter>

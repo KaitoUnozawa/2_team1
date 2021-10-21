@@ -10,7 +10,7 @@ using namespace DirectX;
 class Enemy
 {
 public:
-	Object3D::Object enemy; //“G‹@
+	Object3D enemy; //“G‹@
 	int HP; //‘Ì—Í
 
 
