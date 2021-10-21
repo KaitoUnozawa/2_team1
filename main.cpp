@@ -364,6 +364,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	////音声読み込み
 	Audio::SoundData soundData[2];
 	soundData[0] = audio.SoundLoadWave("Resources/Alarm01.wav");
+	soundData[1] = audio.SoundLoadWave("Resources/musicbox.wav");
 	//SoundData soundData1 = SoundLoadWave("Resources/Alarm01.wav");
 
 
@@ -640,7 +641,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	debugText.Init(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height, debugTextTexNumber, spriteCommon);
 
 
-
+	
 	////描画初期化処理　ここまで
 
 
@@ -679,6 +680,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			audio.SoundPlayWave(audio.xAudio2.Get(), soundData[0]);
 		}
+		//audio.SoundLoopPlayWave(audio.xAudio2.Get(), soundData[1]);
+		/*if (KeyboardInput::PressKeyTrigger(DIK_N))
+		{
+			audio.SoundStop(audio.xAudio2.Get(), soundData[1]);
+		}*/
 
 
 		////頂点座標の変更

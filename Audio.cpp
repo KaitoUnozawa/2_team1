@@ -146,6 +146,21 @@ void Audio::SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData)
 	}
 }
 
+void Audio::SoundStop(IXAudio2* xAudio2, const SoundData& soundData)
+{
+	HRESULT result;
+
+	//波形フォーマットを元にSourceVoiceの生成
+	IXAudio2SourceVoice* pSourceVoice = nullptr;
+	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex, 0, 2.0f, &voiceCallback);
+	assert(SUCCEEDED(result));
+
+	//再生停止
+	result = pSourceVoice->ExitLoop();
+}
+
+
+
 //データ解放
 void Audio::SoundUnLoad(SoundData * soundData)
 {

@@ -8,7 +8,19 @@ class XAudio2VoiceCallback : public IXAudio2VoiceCallback
 {
 public:
 	//ボイス処理パスの開始時
-	void OnVoiceProcessingPassStart(UINT32 Byte)
+	void OnVoiceProcessingPassStart(UINT32 ByteRequired) {};
+	//ボイス処理パスの終了時
+	void OnVoiceProcessingPassEnd() {};
+	//バッファストリームの再生が終了した時
+	void OnStreamEnd() {};
+	//バッファの使用開始時
+	void OnBufferStart(void* pBufferContext) {};
+	//バッファの末尾に達したとき
+	void OnBufferEnd(void* pBufferContext) { delete[] pBufferContext; };
+	//再生がループ位置に達したとき
+	void OnLoopEnd(void* pBufferContext) {};
+	//ボイスの実行エラー時
+	void OnVoiceError(void* pBufferContext, HRESULT Error) {};
 };
 
 //オーディオ
@@ -19,11 +31,13 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private: //変数
-	ComPtr<IXAudio2> xAudio2;
+	
 	IXAudio2MasteringVoice* masterVoice;
+	XAudio2VoiceCallback voiceCallback;
 
 
 public: //構造体
+	ComPtr<IXAudio2> xAudio2;
 	//チャンクヘッダ
 	struct ChunkHeader
 	{
@@ -62,6 +76,8 @@ public: //関数
 	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
 	//ループ再生
 	void SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
+	//再生停止
+	void SoundStop(IXAudio2* xAudio2, const SoundData& soundData);
 	//音声データ解放
 	void SoundUnLoad(SoundData* soundData);
 
