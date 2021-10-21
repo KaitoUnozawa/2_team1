@@ -38,7 +38,7 @@ private: //定数
 	static const float prizmHeight; //柱の高さ
 	static const int planeCount = division * 2 + division * 2; //面の数
 	static const int vertexCount = planeCount * 3; //頂点数
-	static const int spriteSRVCount = 512; //テクスチャの最大枚数
+	//static const int spriteSRVCount = 512; //テクスチャの最大枚数
 
 private: //静的メンバ変数
 	//デバイス
@@ -148,20 +148,5 @@ public: //メンバ関数
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
 #pragma endregion
 
-	//////3Dオブジェクト生成用関数
-	////3Dオブジェクト用パイプライン生成
-	//static PipelineSet ObjectCreateGraphicsPipeline(ID3D12Device* dev);
-	// //スプライト共通データ生成
-	//static ObjectCommon ObjectCommonCreate(ID3D12Device* dev, int window_width, int window_height);
-	////スプライト共通テクスチャ読み込み
-	//static void ObjectCommonLoadTexture(ObjectCommon& objectCommon, UINT texnumber, const wchar_t* filename, ID3D12Device* dev);
-	////スプライト用共通グラフィックスコマンド
-	//static void ObjectCommonBeginDraw(ID3D12GraphicsCommandList* cmdList, const ObjectCommon& objectCommon);
-	////3Dオブジェクト初期化
-	//static Object ObjectCreate(int index, ID3D12Device* dev, int window_width, int window_height, ID3D12DescriptorHeap* descHeap);
-	////オブジェクト更新処理
-	//static void ObjectUpdate(Object& object, const XMMATRIX& matView, const ObjectCommon& objectCommon);
-	////オブジェクト描画処理
-	//static void ObjectDraw(const Object &object, const ObjectCommon &objectCommon, ID3D12Device *dev, ID3D12GraphicsCommandList* cmdList, D3D12_VERTEX_BUFFER_VIEW& vbView, D3D12_INDEX_BUFFER_VIEW& ibView, UINT numIndices);
 };
 

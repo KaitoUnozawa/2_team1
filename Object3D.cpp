@@ -895,7 +895,7 @@ void Object3D::Draw()
 	cmdList->IASetIndexBuffer(&ibView);
 
 	//デスクリプタヒープの配列
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get };
+	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	//定数バッファビューをセット
