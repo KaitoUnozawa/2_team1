@@ -27,6 +27,10 @@ GameScene::~GameScene()
 	safe_delete(pobject2);
 	safe_delete(pobject3);
 	safe_delete(pobject4);
+
+	safe_delete(enemy);
+	safe_delete(bullet);
+	safe_delete(spawn);
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
@@ -92,6 +96,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	enemy = Enemy::Create();
 	enemy->Update();
 
+	spawn = Spawn::Create();
+	spawn->Update();
+
 	//プレイヤーのポジションとスケール
 	XMFLOAT3 position21 = pobject->GetPosition();
 	XMFLOAT3 position22 = pobject2->GetPosition();
@@ -151,6 +158,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	Bscale1 = { 1.0f,1.0f,1.0f };
 
 	bullet->SetScale(Bscale1);
+
 
 }
 
@@ -383,6 +391,7 @@ void GameScene::Update()
 	bullet->Update();
 	
 	enemy->Update();
+	spawn->Update();
 }
 
 void GameScene::Draw()
@@ -414,12 +423,13 @@ void GameScene::Draw()
 	PlayerObject2::PreDraw(cmdList);
 	Bullet::PreDraw(cmdList);
 	Enemy::PreDraw(cmdList);
+	Spawn::PreDraw(cmdList);
 	// 3Dオブクジェクトの描画
 	object3d->Draw();
 	object3d2->Draw();
 	object3d3->Draw();
 	object3d4->Draw();
-
+	spawn->Draw();
 	if (playerActive1 == 0) {
 		pobject->Draw();
 	}
@@ -460,6 +470,7 @@ void GameScene::Draw()
 	PlayerObject2::PostDraw();
 	Bullet::PostDraw();
 	Enemy::PostDraw();
+	Spawn::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画

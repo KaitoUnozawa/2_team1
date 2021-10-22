@@ -12,6 +12,7 @@
 #include"Bullet.h"
 #include"Enemy.h"
 #include"PlayerObject2.h"
+#include"SpawnObject.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -85,6 +86,9 @@ private: // メンバ変数
 	//Bullet* bullet3 = nullptr;
 	//Bullet* bullet4 = nullptr;
 	Enemy* enemy = nullptr;
+
+	Spawn* spawn = nullptr;
+	
 	// フラグ
 	int bflag = 0;
 	int mflag = 0;
@@ -93,6 +97,7 @@ private: // メンバ変数
 	int playerActive2 = 0;
 	int playerActive3 = 0;
 	int playerActive4 = 0;
+	
 	//プレイヤーのスピード
 	float playerSpeed1 = 0.5f;
 	float playerSpeed2 = -0.5f;

@@ -159,6 +159,7 @@
     <ClCompile Include="Playerobject.cpp" />
     <ClCompile Include="PlayerObject2.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="SpawnObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Playerobject.h" />
     <ClInclude Include="PlayerObject2.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="SpawnObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPixelShader.hlsl">
