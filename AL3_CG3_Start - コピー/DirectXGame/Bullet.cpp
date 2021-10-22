@@ -454,7 +454,7 @@ void Bullet::CreateModel()
 
 	std::ifstream file;
 	//file.open("Resources/triangle/triangle_mat.obj");
-	const string modelname = "player";
+	const string modelname = "bullet";
 	const string filename = modelname + ".obj";
 	const string directoryPath = "Resources/" + modelname + "/";
 	file.open(directoryPath + filename);
@@ -518,7 +518,7 @@ void Bullet::CreateModel()
 
 				VertexPosNormalUv vertex{};
 				vertex.pos = positions[indexPosition - 1];
-				vertex.normal = positions[indexNormal - 1];
+				vertex.normal = normals[indexNormal - 1];
 				vertex.uv = texcoords[indexTexcoord - 1];
 				vertices.emplace_back(vertex);
 				//頂点インデックスに追加
