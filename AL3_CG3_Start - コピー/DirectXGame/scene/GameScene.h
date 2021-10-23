@@ -85,14 +85,17 @@ private: // メンバ変数
 	//Bullet* bullet2 = nullptr;
 	//Bullet* bullet3 = nullptr;
 	//Bullet* bullet4 = nullptr;
-	Enemy* enemy = nullptr;
+static const int enemy_max = 100;
+	Enemy* enemy[enemy_max] = {0};
 
 	Spawn* spawn = nullptr;
 	
 	// フラグ
 	int bflag = 0;
 	int mflag = 0;
-	int enemyAlive = 1;
+
+	int enemyAlive[enemy_max];
+
 	int playerActive1 = 1;
 	int playerActive2 = 0;
 	int playerActive3 = 0;

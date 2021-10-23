@@ -27,8 +27,9 @@ GameScene::~GameScene()
 	safe_delete(pobject2);
 	safe_delete(pobject3);
 	safe_delete(pobject4);
-
-	safe_delete(enemy);
+	for (int i = 0; i < enemy_max; i++) {
+		safe_delete(enemy[i]);
+	}
 	safe_delete(bullet);
 	safe_delete(spawn);
 }
@@ -92,9 +93,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 
 	bullet = Bullet::Create();
 	bullet->Update();
-
-	enemy = Enemy::Create();
-	enemy->Update();
+	for (int i = 0; i < enemy_max; i++) {
+		enemy[i] = Enemy::Create();
+		enemy[i]->Update();
+	}
 
 	spawn = Spawn::Create();
 	spawn->Update();
@@ -126,7 +128,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	pobject3->SetScale(scale23);
 	pobject4->SetScale(scale24);
 
-	//プレイヤーのポジションとスケール
+	//プレイヤーアクティブ時のポジションとスケール
 	XMFLOAT3 p2position1 = p2object->GetPosition();
 	XMFLOAT3 p2position2 = pobject2->GetPosition();
 	XMFLOAT3 p2position3 = pobject3->GetPosition();
@@ -152,13 +154,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	p2object2->SetScale(p2scale2);
 	p2object3->SetScale(p2scale3);
 	p2object4->SetScale(p2scale4);
-
+	//弾のスケール
 	XMFLOAT3 Bscale1 = bullet->GetScale();
-
 	Bscale1 = { 1.0f,1.0f,1.0f };
-
 	bullet->SetScale(Bscale1);
-
+	//enemyAliveの初期化
+	for (int i = 0; i < enemy_max; i++) {
+		enemyAlive[i] = { 1 };
+	}
 
 }
 
@@ -233,7 +236,9 @@ void GameScene::Update()
 	XMFLOAT3 M2position4 = p2object4->GetPosition();
 
 	XMFLOAT3 BMposition = bullet->GetPosition();
-	XMFLOAT3 Eposition = enemy->GetPosition();
+	
+
+	
 	if (mflag == 0) {
 		if (input->TriggerKey(DIK_SPACE)) {
 		
@@ -353,26 +358,32 @@ void GameScene::Update()
 	p2object3->SetPosition(M2position3);
 	p2object4->SetPosition(M2position4);
 
-	//当たり判定
-		bullet->SetPosition(BMposition);
-		enemy->SetPosition(Eposition);
-		if (enemyAlive == 1 && mflag == 1) {
+	for (int i = 0; i < enemy_max; i++) {
+		XMFLOAT3 Eposition[100] = { {0,0,0} };
+		Eposition[i] = enemy[i]->GetPosition();
+		Eposition[i] = { i-10.0f,0.0f,0.0f };
 
-			float a = BMposition.x - Eposition.x;
-			float b = BMposition.y - Eposition.y;
+		if (enemyAlive[i] == 1 && mflag == 1) {
+
+			float a = BMposition.x - Eposition[i].x;
+			float b = BMposition.y - Eposition[i].y;
 			float c = sqrt(a * a + b * b);
 
 			if (c <= radius1 + radius2) {
 				if (bflag == 2 || bflag == 4) {
-					enemyAlive = 0;
+					enemyAlive[i] = 0;
 				}
 				if (bflag == 1 || bflag == 3) {
-				
+
 				}
 			}
-
-
 		}
+		enemy[i]->SetPosition(Eposition[i]);
+	}
+
+	//当たり判定
+		bullet->SetPosition(BMposition);
+
 	object3d->Update();
 	object3d2->Update();
 	object3d3->Update();
@@ -389,8 +400,9 @@ void GameScene::Update()
 	p2object4->Update();
 
 	bullet->Update();
-	
-	enemy->Update();
+	for (int i = 0; i < enemy_max; i++) {
+		enemy[i]->Update();
+	}
 	spawn->Update();
 }
 
@@ -457,8 +469,11 @@ void GameScene::Draw()
 	if (mflag == 1) {
 		bullet->Draw();
 	}
-	if (enemyAlive == 1) {
-		enemy->Draw();
+	for (int i = 0; i < enemy_max; i++) {
+	if (enemyAlive[i] == 1) {
+		
+			enemy[i]->Draw();
+		}
 	}
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
