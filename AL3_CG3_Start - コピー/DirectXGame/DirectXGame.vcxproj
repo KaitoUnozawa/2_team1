@@ -153,6 +153,7 @@
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet2.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="base\SafeDelete.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet2.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="Playerobject.h" />

@@ -31,6 +31,7 @@ GameScene::~GameScene()
 		safe_delete(enemy[i]);
 	}
 	safe_delete(bullet);
+	safe_delete(bullet2);
 	safe_delete(spawn);
 }
 
@@ -93,6 +94,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 
 	bullet = Bullet::Create();
 	bullet->Update();
+
+	bullet2 = Bullet2::Create();
+	bullet2->Update();
+
 	for (int i = 0; i < enemy_max; i++) {
 		enemy[i] = Enemy::Create();
 		enemy[i]->Update();
@@ -155,9 +160,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	p2object3->SetScale(p2scale3);
 	p2object4->SetScale(p2scale4);
 	//弾のスケール
-	XMFLOAT3 Bscale1 = bullet->GetScale();
-	Bscale1 = { 1.0f,1.0f,1.0f };
-	bullet->SetScale(Bscale1);
+	XMFLOAT3 Bscale = bullet->GetScale();
+	Bscale = { 1.0f,1.0f,1.0f };
+	bullet->SetScale(Bscale);
+
+	XMFLOAT3 Bscale2 = bullet2->GetScale();
+	Bscale2 = { 1.0f,1.0f,1.0f };
+	bullet2->SetScale(Bscale2);
+
 	//enemyAliveの初期化
 	for (int i = 0; i < enemy_max; i++) {
 		enemyAlive[i] = { 1 };
@@ -206,24 +216,7 @@ void GameScene::Update()
 	object3d2->SetScale(scale2);
 	object3d3->SetScale(scale3);
 	object3d4->SetScale(scale4); 
-	
 
-
-	//// オブジェクト移動
-	//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT))
-	//{
-	//	// 現在の座標を取得
-	//	XMFLOAT3 position = object3d->GetPosition();
-
-	//	// 移動後の座標を計算
-	//	if (input->PushKey(DIK_UP)) { position.y += 1.0f; }
-	//	else if (input->PushKey(DIK_DOWN)) { position.y -= 1.0f; }
-	//	if (input->PushKey(DIK_RIGHT)) { position.x += 1.0f; }
-	//	else if (input->PushKey(DIK_LEFT)) { position.x -= 1.0f; }
-
-	//	// 座標の変更を反映
-	//	object3d->SetPosition(position);
-	//}
 	// オブジェクト移動
 	XMFLOAT3 Mposition1 = pobject->GetPosition();
 	XMFLOAT3 Mposition2 = pobject2->GetPosition();
@@ -237,7 +230,7 @@ void GameScene::Update()
 
 	XMFLOAT3 BMposition = bullet->GetPosition();
 	
-
+	XMFLOAT3 BM2position = bullet2->GetPosition();
 	
 	if (mflag == 0) {
 		if (input->TriggerKey(DIK_SPACE)) {
@@ -248,16 +241,16 @@ void GameScene::Update()
 			}
 			if (bflag == 1) {
 				mflag = 1;
-				BMposition.x = Mposition1.x;
-				BMposition.y = Mposition1.y;
-				BMposition.z = Mposition1.z;
+				BM2position.x = Mposition1.x;
+				BM2position.y = Mposition1.y;
+				BM2position.z = Mposition1.z;
 
 			}
 			if (bflag == 3) {
 				mflag = 1;
-				BMposition.x = Mposition2.x;
-				BMposition.y = Mposition2.y;
-				BMposition.z = Mposition2.z;
+				BM2position.x = Mposition2.x;
+				BM2position.y = Mposition2.y;
+				BM2position.z = Mposition2.z;
 
 			}
 			if (bflag == 4) {	
@@ -279,16 +272,16 @@ void GameScene::Update()
 	if (mflag == 1)
 	{
 		if (bflag == 1) {
-			BMposition.y += 2;
-			if (BMposition.y >= position2.y) {
+			BM2position.y += 2;
+			if (BM2position.y >= position2.y) {
 				playerActive2 = 1;
 				playerActive1 = 0;
 				mflag = 0;
 			}
 		}
 		if (bflag == 3) {
-			BMposition.y -= 2;
-			if (BMposition.y <= position1.y) {
+			BM2position.y -= 2;
+			if (BM2position.y <= position1.y) {
 				playerActive4 = 1;
 				playerActive3 = 0;
 				mflag = 0;
@@ -363,19 +356,32 @@ void GameScene::Update()
 		Eposition[i] = enemy[i]->GetPosition();
 		Eposition[i] = { i-10.0f,0.0f,0.0f };
 
-		if (enemyAlive[i] == 1 && mflag == 1) {
 
-			float a = BMposition.x - Eposition[i].x;
-			float b = BMposition.y - Eposition[i].y;
+		if (enemyAlive[i] == 1 && mflag == 1 && bflag == 1 || bflag == 3) {
+
+			float a = BM2position.x - Eposition[i].x;
+			float b = BM2position.y - Eposition[i].y;
 			float c = sqrt(a * a + b * b);
 
 			if (c <= radius1 + radius2) {
-				if (bflag == 2 || bflag == 4) {
-					enemyAlive[i] = 0;
-				}
-				if (bflag == 1 || bflag == 3) {
 
-				}
+			
+
+
+			}
+		}
+
+		if (enemyAlive[i] == 1 && mflag == 1&& bflag == 2 || bflag == 4) {
+
+			float d = BMposition.x - Eposition[i].x;
+			float e = BMposition.y - Eposition[i].y;
+			float f = sqrt(d * d + e * e);
+
+			if (f <= radius1 + radius2) {
+			
+					enemyAlive[i] = 0;
+				
+			
 			}
 		}
 		enemy[i]->SetPosition(Eposition[i]);
@@ -383,6 +389,7 @@ void GameScene::Update()
 
 	//当たり判定
 		bullet->SetPosition(BMposition);
+		bullet2->SetPosition(BM2position);
 
 	object3d->Update();
 	object3d2->Update();
@@ -400,6 +407,8 @@ void GameScene::Update()
 	p2object4->Update();
 
 	bullet->Update();
+	bullet2->Update();
+
 	for (int i = 0; i < enemy_max; i++) {
 		enemy[i]->Update();
 	}
@@ -434,6 +443,7 @@ void GameScene::Draw()
 	PlayerObject::PreDraw(cmdList);
 	PlayerObject2::PreDraw(cmdList);
 	Bullet::PreDraw(cmdList);
+	Bullet2::PreDraw(cmdList);
 	Enemy::PreDraw(cmdList);
 	Spawn::PreDraw(cmdList);
 	// 3Dオブクジェクトの描画
@@ -466,8 +476,11 @@ void GameScene::Draw()
 	if (playerActive4 == 1) {
 		p2object3->Draw();
 	}
-	if (mflag == 1) {
+	if (mflag == 1&& bflag == 2 || bflag == 4) {
 		bullet->Draw();
+	}
+	if (mflag == 1&& bflag == 1 || bflag == 3) {
+		bullet2->Draw();
 	}
 	for (int i = 0; i < enemy_max; i++) {
 	if (enemyAlive[i] == 1) {
@@ -484,6 +497,7 @@ void GameScene::Draw()
 	PlayerObject::PostDraw();
 	PlayerObject2::PostDraw();
 	Bullet::PostDraw();
+	Bullet2::PostDraw();
 	Enemy::PostDraw();
 	Spawn::PostDraw();
 #pragma endregion

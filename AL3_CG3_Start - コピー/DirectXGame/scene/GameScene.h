@@ -10,6 +10,7 @@
 #include "Audio.h"
 #include"Playerobject.h"
 #include"Bullet.h"
+#include"Bullet2.h"
 #include"Enemy.h"
 #include"PlayerObject2.h"
 #include"SpawnObject.h"
@@ -77,15 +78,17 @@ private: // メンバ変数
 	PlayerObject* pobject2 = nullptr;
 	PlayerObject* pobject3 = nullptr;
 	PlayerObject* pobject4 = nullptr;
+
 	PlayerObject2* p2object = nullptr;
 	PlayerObject2* p2object2 = nullptr;
 	PlayerObject2* p2object3 = nullptr;
 	PlayerObject2* p2object4 = nullptr;
+
 	Bullet* bullet = nullptr;
-	//Bullet* bullet2 = nullptr;
-	//Bullet* bullet3 = nullptr;
-	//Bullet* bullet4 = nullptr;
-static const int enemy_max = 100;
+
+	Bullet2* bullet2 = nullptr;
+
+	static const int enemy_max = 100;
 	Enemy* enemy[enemy_max] = {0};
 
 	Spawn* spawn = nullptr;

@@ -60,6 +60,11 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 		return 1;
 	}
 
+	if (!Bullet2::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
+		assert(0);
+		return 1;
+	}
+
 	if (!Enemy::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
 		assert(0);
 		return 1;
