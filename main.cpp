@@ -70,8 +70,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	audio->Init();
 	////‰¹º“Ç‚İ‚İ
 	Audio::SoundData soundData[2];
-	soundData[0] = audio->SoundLoadWave("Resources/Sounds/test.wav");
-	soundData[1] = audio->SoundLoadWave("Resources/Sounds/Destroy.wav");
+	soundData[0] = audio->SoundLoadWave("Resources/test.wav");
+	soundData[1] = audio->SoundLoadWave("Resources/Destroy.wav");
 
 	
 	////DirectInput(“ü—Í)‰Šú‰»ˆ—
