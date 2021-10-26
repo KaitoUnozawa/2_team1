@@ -75,6 +75,9 @@
     <ClInclude Include="GameScene.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
+    <ClInclude Include="ModelObj.h">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KeyboardInput.cpp">
@@ -107,12 +110,18 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="ModelObj.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Basic.hlsli">
       <Filter>HLSL ファイル</Filter>
     </None>
     <None Include="Resources\Shaders\Sprite.hlsli">
+      <Filter>HLSL ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\Obj.hlsli">
       <Filter>HLSL ファイル</Filter>
     </None>
   </ItemGroup>
@@ -127,6 +136,12 @@
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\SpriteVS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ObjPS.hlsl">
+      <Filter>HLSL ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ObjVS.hlsl">
       <Filter>HLSL ファイル</Filter>
     </FxCompile>
   </ItemGroup>

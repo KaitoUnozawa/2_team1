@@ -11,6 +11,7 @@ GameScene::~GameScene()
 {
 	safe_delete(spriteBG);
 	safe_delete(object3d);
+	safe_delete(model);
 }
 
 void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
@@ -32,7 +33,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	// デバッグテキスト初期化
 	debugText.Init(debugTextTexNum);
 
-	// テクスチャ読み込み
+	// 背景テクスチャ読み込み
 	if (!Object2D::LoadTexture(1, L"Resources/texture.png")) {
 		assert(0);
 		return;
@@ -42,6 +43,12 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	// 3Dオブジェクト生成
 	object3d = Object3D::CreateObject();
 	object3d->Update();
+	//3Dモデル作成
+	model = ModelObj::Create();
+	model->Update();
+
+	soundData[0] = audio->SoundLoadWave("Resources/test.wav");
+	soundData[1] = audio->SoundLoadWave("Resources/Alarm01.wav");
 }
 
 void GameScene::Update()
@@ -50,7 +57,7 @@ void GameScene::Update()
 	if (input->PressKey(DIK_UP) || input->PressKey(DIK_DOWN) || input->PressKey(DIK_RIGHT) || input->PressKey(DIK_LEFT))
 	{
 		// 現在の座標を取得
-		XMFLOAT3 position = object3d->GetPosition();
+		XMFLOAT3 position = model->GetPosition();
 
 		// 移動後の座標を計算
 		if (input->PressKey(DIK_UP)) { position.y += 1.0f; }
@@ -59,7 +66,7 @@ void GameScene::Update()
 		else if (input->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
 
 		// 座標の変更を反映
-		object3d->SetPosition(position);
+		model->SetPosition(position);
 	}
 
 	// カメラ移動
@@ -71,9 +78,23 @@ void GameScene::Update()
 		else if (input->PressKey(DIK_A)) { Object3D::CameraMoveVector({ -1.0f,0.0f,0.0f }); }
 	}
 
-	object3d->Update();
+	//キーが押されているときの処理例
+	if (input->PressKeyTrigger(DIK_0))
+	{
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
+	}
+
+	//音声再生例
+	//SoundPlayWave(xAudio2.Get(),soundData1);
+	if (input->PressKeyTrigger(DIK_M))
+	{
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0]);
+	}
+
+	model->Update();
 	//キーボード入力更新
 	KeyboardInput::Update();
+
 	
 }
 
@@ -84,16 +105,16 @@ void GameScene::Draw()
 
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
-	Object2D::PreDraw(cmdList);
+	//Object2D::PreDraw(cmdList);
 	// 背景スプライト描画
-	spriteBG->Draw();
+	//spriteBG->Draw();
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
 
 	// スプライト描画後処理
-	Object2D::PostDraw();
+	//Object2D::PostDraw();
 	// 深度バッファクリア
 	dxCommon->ClearDepthBuffer();
 #pragma endregion
@@ -103,7 +124,7 @@ void GameScene::Draw()
 	//Object3D::PreDraw(cmdList);
 
 	// 3Dオブクジェクトの描画
-	object3d->Draw();
+	//object3d->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
@@ -111,6 +132,21 @@ void GameScene::Draw()
 
 	// 3Dオブジェクト描画後処理
 	//Object3D::PostDraw();
+#pragma endregion
+
+#pragma region 3Dモデル描画
+// 3Dモデル描画前処理
+	ModelObj::PreDraw(cmdList);
+
+// 3Dオブクジェクトの描画
+	model->Draw();
+
+/// <summary>
+/// ここに3Dオブジェクトの描画処理を追加できる
+/// </summary>
+
+// 3Dオブジェクト描画後処理
+	ModelObj::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画

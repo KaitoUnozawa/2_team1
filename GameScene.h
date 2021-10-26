@@ -8,6 +8,7 @@
 #include "DebugText.h"
 #include "Audio.h"
 #include "KeyboardInput.h"
+#include "ModelObj.h"
 
 class GameScene
 {
@@ -34,8 +35,9 @@ private: //メンバ変数
 	//ゲームシーン用
 	Object2D* spriteBG = nullptr;
 	Object3D* object3d = nullptr;
+	ModelObj* model = nullptr;
 	
-
+	Audio::SoundData soundData[2];
 
 public: //メンバ関数
 	//コンストラクタ

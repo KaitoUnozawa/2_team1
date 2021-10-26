@@ -18,6 +18,7 @@
 #include"DirectXCommon.h"
 #include"SafeDelete.h"
 #include"GameScene.h"
+#include"ModelObj.h"
 
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"d3d12.lib")
@@ -69,15 +70,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	audio = new Audio();
 	audio->Init();
 	////音声読み込み
-	Audio::SoundData soundData[2];
-	soundData[0] = audio->SoundLoadWave("Resources/test.wav");
-	soundData[1] = audio->SoundLoadWave("Resources/Alarm01.wav");
+	
+	
 
 	
 	////DirectInput(入力)初期化処理
 	KeyboardInput* input = nullptr;
 	input = new KeyboardInput();
-	input->Init(WindowsAPI::hwnd);
+	input->Init(win->hwnd);
 
 
 	////DirectX初期化処理　ここまで
@@ -87,12 +87,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	////描画初期化処理　ここから
 	
-
-	////3Dオブジェクト初期化
- //   Object3D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height);
-	////スプライト用パイプライン生成
-	//Object2D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height);
-
 	// スプライト静的初期化
 	if (!Object2D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
@@ -101,6 +95,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// 3Dオブジェクト静的初期化
 	if (!Object3D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+
+	// 3Dモデル静的初期化
+	if (!ModelObj::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
 		return 1;
 	}
@@ -165,18 +165,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region 更新処理
 		input->Update();
 		gameScene->Update();
-		//キーが押されているときの処理例
-		if (KeyboardInput::PressKeyTrigger(DIK_0))
-		{
-			audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
-		}
 
-		//音声再生例
-		//SoundPlayWave(xAudio2.Get(),soundData1);
-		if (KeyboardInput::PressKeyTrigger(DIK_M))
-		{
-			audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0]);
-		}
+		
 
 #pragma endregion
 		
@@ -196,8 +186,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		////////////////DirectX毎フレーム処理 ここまで
-
-
 	}
 	//クラス(new)の消去
 	//音声データ解放
