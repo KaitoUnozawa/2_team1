@@ -100,7 +100,7 @@ void GameScene::Draw()
 
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
-	Object3D::PreDraw(cmdList);
+	//Object3D::PreDraw(cmdList);
 
 	// 3Dオブクジェクトの描画
 	object3d->Draw();
@@ -110,7 +110,7 @@ void GameScene::Draw()
 	/// </summary>
 
 	// 3Dオブジェクト描画後処理
-	Object3D::PostDraw();
+	//Object3D::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画
