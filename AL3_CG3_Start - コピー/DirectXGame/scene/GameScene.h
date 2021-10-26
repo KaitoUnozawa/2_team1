@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Sprite.h"
 #include "Object3d.h"
+#include "Object3d2.h"
 #include "DebugText.h"
 #include "Audio.h"
 #include"Playerobject.h"
@@ -71,8 +72,8 @@ private: // メンバ変数
 	Sprite* spriteBG = nullptr;
 	Object3d* object3d = nullptr;
 	Object3d* object3d2 = nullptr;
-	Object3d* object3d3 = nullptr;
-	Object3d* object3d4 = nullptr;
+	Object3d2* object3d3 = nullptr;
+	Object3d2* object3d4 = nullptr;
 
 	PlayerObject* pobject = nullptr;
 	PlayerObject* pobject2 = nullptr;
@@ -86,9 +87,11 @@ private: // メンバ変数
 
 	Bullet* bullet = nullptr;
 
+
 	Bullet2* bullet2 = nullptr;
 
 	static const int enemy_max = 100;
+
 	Enemy* enemy[enemy_max] = {0};
 
 	Spawn* spawn = nullptr;
@@ -96,6 +99,7 @@ private: // メンバ変数
 	// フラグ
 	int bflag = 0;
 	int mflag = 0;
+	int tflag = 0;
 
 	int enemyAlive[enemy_max];
 
@@ -110,8 +114,19 @@ private: // メンバ変数
 	float playerSpeed3 = -0.5f;
 	float playerSpeed4 = 0.5f;
 
-	const float radius1 = 4.0f;
-	const float radius2 = 4.0f;
-	float timer = 10;
+	float enemySpeed1[enemy_max] = { 0.5f };
+	float enemySpeed2[enemy_max] = { -0.5f };
+
+	const float radius1 = 2.0f;
+	const float radius2 = 2.0f;
+	int spawntimer = 50;
+	int timer = 50;
+	
+	float angle[enemy_max] = { 0 };
+
+	int enemyCount = 0;
+	int score = 0;
+	char str[100];
+
 };
 

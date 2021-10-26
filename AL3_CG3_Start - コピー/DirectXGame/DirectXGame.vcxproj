@@ -157,6 +157,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object3d2.cpp" />
     <ClCompile Include="Playerobject.cpp" />
     <ClCompile Include="PlayerObject2.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Bullet2.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Object3d2.h" />
     <ClInclude Include="Playerobject.h" />
     <ClInclude Include="PlayerObject2.h" />
     <ClInclude Include="scene\GameScene.h" />

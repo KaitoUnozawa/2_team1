@@ -9,7 +9,7 @@
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
-class Enemy
+class Object3d2
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
@@ -62,6 +62,11 @@ public: // サブクラス
 	};
 
 private: // 定数
+	static const int division = 50;					// 分割数
+	static const float radius;				// 底面の半径
+	static const float prizmHeight;			// 柱の高さ
+	static const int planeCount = division * 2 + division * 2;		// 面の数
+	static const int vertexCount = planeCount * 3;		// 頂点数
 
 public: // 静的メンバ関数
 	/// <summary>
@@ -88,7 +93,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static Enemy* Create();
+	static Object3d2* Create();
 
 	/// <summary>
 	/// 視点座標の取得
@@ -225,9 +230,6 @@ public: // メンバ関数
 	const XMFLOAT3& GetScale() { return scale; }
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
-	const XMMATRIX& GetWorld() { return matWorld; }
-	void SetWorld(XMMATRIX matWorld) { this->matWorld = matWorld; }
-
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
@@ -242,7 +244,7 @@ private: // メンバ変数
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト
-	Enemy* parent = nullptr;
+	Object3d2* parent = nullptr;
 };
 
-
+#pragma once
