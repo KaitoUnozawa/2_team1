@@ -17,7 +17,7 @@ public:
 private:
 	//メンバ変数
 	//スプライトの配列
-	Object2D::Sprite textSprites[maxCharCount];
+	Object2D* textSprites[maxCharCount];
 	//配列の添え字
 	int textIndex = 0;
 
@@ -25,11 +25,11 @@ private:
 public:
 	//メンバ関数
 	//初期化
-	void Init(ID3D12Device* dev, int window_wigth, int window_height, UINT texnumber, const Object2D::SpriteCommon& spriteCommon);
+	void Init(UINT texnumber);
 	//文字列の追加
-	void PrintDebugText(const Object2D::SpriteCommon& spriteCommon, const std::string& text, float x, float y, float scale = 1.0f);
+	void PrintDebugText(const std::string& text, float x, float y, float scale = 1.0f);
 	//文字列の表示
-	void DrawAll(ID3D12GraphicsCommandList* cmdList, const Object2D::SpriteCommon& spriteCommon, ID3D12Device* dev);
+	void DrawAll(ID3D12GraphicsCommandList* cmdList);
 
 };
 

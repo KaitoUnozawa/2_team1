@@ -1,16 +1,16 @@
 #include "DebugText.h"
 
-void DebugText::Init(ID3D12Device * dev, int window_wigth, int window_height, UINT texnumber, const Object2D::SpriteCommon & spriteCommon)
+void DebugText::Init(UINT texnumber)
 {
 	//全てのデバッグテキストデータに対して
 	for (int i = 0; i < _countof(textSprites); i++)
 	{
 		//デバッグテキスト用文字画像を生成する
-		textSprites[i] = Object2D::SpriteCreate(dev, window_wigth, window_height, texnumber, spriteCommon, { 0,0 });
+		textSprites[i] = Object2D::CreateSprite(texnumber, { 0,0 });
 	}
 }
 
-void DebugText::PrintDebugText(const Object2D::SpriteCommon & spriteCommon, const std::string & text, float x, float y, float scale)
+void DebugText::PrintDebugText(const std::string & text, float x, float y, float scale)
 {
 	//全ての文字について
 	for (int i = 0; i < text.size(); i++)
@@ -32,27 +32,23 @@ void DebugText::PrintDebugText(const Object2D::SpriteCommon & spriteCommon, cons
 		int fontIndexY = fontIndex / fontLineCount;
 		int fontIndexX = fontIndex % fontLineCount;
 
-		//座標計算
-		textSprites[textIndex].position = { x + fontWidth * scale * i,y,0 };
-		textSprites[textIndex].texLeftTop = { (float)fontIndexX * fontWidth,(float)fontIndexY * fontHeight };
-		textSprites[textIndex].texSize = { fontWidth , fontHeight };
-		textSprites[textIndex].size = { fontWidth * scale,fontHeight * scale };
-		//頂点バッファ転送
-		Object2D::SpriteTransferVertexBuffer(textSprites[textIndex], spriteCommon);
-		//更新
-		Object2D::SpriteUpdate(textSprites[textIndex], spriteCommon);
+		// 座標計算
+		textSprites[textIndex]->SetPosition({ x + fontWidth * scale * i, y });
+		textSprites[textIndex]->SetTextureRect({ (float)fontIndexX * fontWidth, (float)fontIndexY * fontHeight }, { (float)fontWidth, (float)fontHeight });
+		textSprites[textIndex]->SetSize({ fontWidth * scale, fontHeight * scale });
+
 		//文字を一つ進める
 		textIndex += 1;
 	}
 }
 
-void DebugText::DrawAll(ID3D12GraphicsCommandList * cmdList, const Object2D::SpriteCommon & spriteCommon, ID3D12Device * dev)
+void DebugText::DrawAll(ID3D12GraphicsCommandList * cmdList)
 {
 	//全ての文字のスプライトに対して
 	for (int i = 0; i < textIndex; i++)
 	{
-		//スプライト描画
-		Object2D::SpriteDraw(textSprites[i], cmdList,spriteCommon,dev);
+		// スプライト描画
+		textSprites[i]->Draw();
 	}
 
 	//配列初期化

@@ -30,11 +30,11 @@ private: //メンバ変数
 	KeyboardInput* input = nullptr;
 	Audio* audio = nullptr;
 	DebugText debugText;
-	Object2D::SpriteCommon spriteCommon;
 
 	//ゲームシーン用
 	Object2D* spriteBG = nullptr;
 	Object3D* object3d = nullptr;
+	
 
 
 public: //メンバ関数
