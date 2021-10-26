@@ -109,6 +109,9 @@ void Audio::SoundPlayWave(IXAudio2 * xAudio2, const SoundData & soundData)
 //データ解放
 void Audio::SoundUnLoad(SoundData * soundData)
 {
+	//xAudio2のインスタンスを解放
+	xAudio2.Reset();
+
 	//バッファのメモリを解放
 	delete[] soundData->pBuffer;
 

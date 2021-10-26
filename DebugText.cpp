@@ -52,6 +52,9 @@ void DebugText::DrawAll(ID3D12GraphicsCommandList * cmdList, const Object2D::Spr
 	for (int i = 0; i < textIndex; i++)
 	{
 		//スプライト描画
-		Object2D::SpriteDraw(&textSprites)
+		Object2D::SpriteDraw(textSprites[i], cmdList,spriteCommon,dev);
 	}
+
+	//配列初期化
+	textIndex = 0;
 }

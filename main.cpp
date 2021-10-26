@@ -8,8 +8,8 @@
 #include<string>
 #include<DirectXMath.h>
 #include<d3dcompiler.h>
-#include<fstream>
-#include<xaudio2.h>
+//#include<fstream>
+//#include<xaudio2.h>
 
 #include"WindowsAPI.h"  //ウィンドウ表示
 #include"KeyboardInput.h"  //キーボード入力
@@ -17,7 +17,7 @@
 #include"Object3D.h"  //3Dオブジェクト(Object)
 #include"Camera.h" //カメラ制御
 #include"Player.h" //プレイヤー
-//#include"Audio.h" //音楽再生
+#include"Audio.h" //音楽再生
 #include"DebugText.h" //デバッグテキスト
 
 #pragma comment(lib,"dxguid.lib")
@@ -27,145 +27,10 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"xaudio2.lib")
 
-//テスト！！！
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-////オーディオ
-//チャンクヘッダ
-struct ChunkHeader
-{
-	char id[4]; //チャンク毎のID
-	int32_t size; //チャンクサイズ
-};
-
-//RIFFヘッダチャンク
-struct RiffHeader
-{
-	ChunkHeader chunk; //"RIFF"
-	char type[4]; //"WAVE"
-};
-
-//FMTチャンク
-struct FormatChunk
-{
-	ChunkHeader chunk; //"fmt"
-	WAVEFORMATEX fmt; //波形フォーマット
-};
-
-//音声データ
-struct SoundData
-{
-	//波形フォーマット
-	WAVEFORMATEX wfex;
-	//バッファの先頭アドレス
-	BYTE* pBuffer;
-	//バッファのサイズ
-	unsigned int bufferSize;
-};
-
-
-//音声データ読み込み関数
-SoundData SoundLoadWave(const char* filename)
-{
-	HRESULT result;
-
-	////ファイルオープン
-	//ファイル入力ストリームのインスタンス
-	std::ifstream file;
-	//wavファイルをバイナリモードで開く
-	file.open(filename, std::ios_base::binary);
-	//ファイルオープン失敗を検出する
-	assert(file.is_open());
-
-
-	////wavデータ読み込み
-	//RIFFヘッダーの読み込み
-	RiffHeader riff;
-	file.read((char*)&riff, sizeof(riff));
-	//ファイルがRIFFかチェック
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
-		assert(0);
-	}
-	//タイプがWAVEかチェック
-	if (strncmp(riff.type, "WAVE", 4) != 0) {
-		assert(0);
-	}
-	//Formatチャンクの読み込み
-	FormatChunk format = {};
-	//チャンクヘッダーの確認
-	file.read((char*)&format, sizeof(ChunkHeader));
-	if (strncmp(format.chunk.id, "fmt ", 4) != 0) {
-		assert(0);
-	}
-
-	//チャンク本体の読み込み
-	assert(format.chunk.size <= sizeof(format.fmt));
-	file.read((char*)&format.fmt, format.chunk.size);
-	//Dataチャンクの読み込み
-	ChunkHeader data;
-	file.read((char*)&data, sizeof(data));
-	//JUNKチャンクを検出した場合
-	if (strncmp(data.id, "JUNK", 4) == 0) {
-		//読み取り位置をJUNKチャンクの終わりまで進める
-		file.seekg(data.size, std::ios_base::cur);
-		//再読み込み
-		file.read((char*)&data, sizeof(data));
-	}
-	if (strncmp(data.id, "data", 4) != 0) {
-		assert(0);
-	}
-
-	//Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
-
-	//Waveファイルを閉じる
-	file.close();
-
-
-	//読み込んだ音声データをreturnする
-	SoundData soundData = {};
-
-	soundData.wfex = format.fmt;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-	soundData.bufferSize = data.size;
-
-	return soundData;
-}
-
-//音声データ解放関数
-void SoundUnLoad(SoundData* soundData)
-{
-	//バッファのメモリを解放
-	delete[] soundData->pBuffer;
-
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
-}
-
-//音声再生関数
-void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData)
-{
-	HRESULT result;
-
-	//波形フォーマットを元にSourceVoiceの生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-	assert(SUCCEEDED(result));
-
-	//再生する波形データの設定
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
-	buf.Flags = XAUDIO2_END_OF_STREAM;
-
-	//波形データの再生
-	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	result = pSourceVoice->Start();
-}
 
 
 //ウィンドウプロシージャ
@@ -361,19 +226,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 	//サウンド再生
-	ComPtr<IXAudio2> xAudio2;
-	IXAudio2MasteringVoice* masterVoice;
+	//ComPtr<IXAudio2> xAudio2;
+	//IXAudio2MasteringVoice* masterVoice;
 	//XAudioエンジンのインスタンスを生成
-	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	//result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
 	//マスターボイスを生成
-	result = xAudio2->CreateMasteringVoice(&masterVoice);
+	//result = xAudio2->CreateMasteringVoice(&masterVoice);
 	
 	//初期化
-	//Audio audio;
-	//audio.Init();
+	Audio audio;
+	audio.Init();
 	////音声読み込み
-	//Audio::SoundData soundData1 = audio.SoundLoadWave("Resources/Alarm01.wav");
-	SoundData soundData1 = SoundLoadWave("Resources/Alarm01.wav");
+	Audio::SoundData soundData[2];
+	soundData[0] = audio.SoundLoadWave("Resources/test.wav");
+	//SoundData soundData1 = SoundLoadWave("Resources/Alarm01.wav");
 
 
 	////DirectX初期化処理　ここまで
@@ -684,7 +550,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//SoundPlayWave(xAudio2.Get(),soundData1);
 		if (KeyboardInput::PressKeyTrigger(DIK_M))
 		{
-			SoundPlayWave(xAudio2.Get(),soundData1);
+			audio.SoundPlayWave(audio.xAudio2.Get(),soundData[0]);
 		}
 
 
@@ -791,7 +657,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		////デバッグテキスト表示
-		debugText.PrintDebugText(spriteCommon, "I am goat.", 200, 100);
+		//表示したい文字を入力
+		debugText.PrintDebugText(spriteCommon, "I am goat.", 400, 100);
+		debugText.PrintDebugText(spriteCommon, "I'm not egg.", 400, 150, 1.0f);
+		//デバッグテキスト描画
+		debugText.DrawAll(cmdList.Get(), spriteCommon, dev.Get());
 
 
 		//////４．描画コマンド　ここまで
@@ -840,9 +710,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 	//クラス(new)の消去
 	//XAudio2解放
-	xAudio2.Reset();
+	//xAudio2.Reset();
 	//音声データ解放
-	SoundUnLoad(&soundData1);
+	audio.SoundUnLoad(soundData);
 
 	//ウィンドウクラスを登録解除
 	WindowsAPI::WindowClassRelease();
