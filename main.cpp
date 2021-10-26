@@ -372,7 +372,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	audio.Init();
 	////âπê∫ì«Ç›çûÇ›
 	Audio::SoundData soundData[2];
-	soundData[0] = audio.SoundLoadWave("Resources/Alarm01.wav");
+	soundData[0] = audio.SoundLoadWave("Resources/test.wav");
 	//SoundData soundData1 = SoundLoadWave("Resources/Alarm01.wav");
 
 
