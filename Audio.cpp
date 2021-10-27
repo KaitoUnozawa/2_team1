@@ -2,6 +2,7 @@
 #include<fstream>
 #include<cassert>
 
+
 //初期化
 void Audio::Init()
 {
@@ -16,7 +17,6 @@ void Audio::Init()
 //wavファイル読み込み
 Audio::SoundData Audio::SoundLoadWave(const char * filename)
 {
-
 	{
 		HRESULT result;
 
@@ -116,6 +116,7 @@ void Audio::SoundPlayWave(IXAudio2 * xAudio2, const SoundData & soundData)
 	}
 }
 
+//ループ再生がしたい
 void Audio::SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData)
 {
 	HRESULT result;
@@ -146,6 +147,7 @@ void Audio::SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData)
 	}
 }
 
+//再生終了
 void Audio::SoundStop(IXAudio2* xAudio2, const SoundData& soundData)
 {
 	HRESULT result;
@@ -158,8 +160,6 @@ void Audio::SoundStop(IXAudio2* xAudio2, const SoundData& soundData)
 	//再生停止
 	result = pSourceVoice->ExitLoop();
 }
-
-
 
 //データ解放
 void Audio::SoundUnLoad(SoundData * soundData)

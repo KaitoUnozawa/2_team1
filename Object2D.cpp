@@ -12,9 +12,7 @@ using namespace Microsoft::WRL;
 /// <summary>
 /// Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
 /// </summary>
-ID3D12Device* Object2D::
-
-device = nullptr;
+ID3D12Device* Object2D::device = nullptr;
 UINT Object2D::descriptorHandleIncrementSize;
 ID3D12GraphicsCommandList* Object2D::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Object2D::rootsignature;

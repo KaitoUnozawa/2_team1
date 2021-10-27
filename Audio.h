@@ -3,6 +3,8 @@
 #include<xaudio2.h>
 #include<wrl.h>
 
+using namespace Microsoft::WRL;
+
 //オーディオコールバック
 class XAudio2VoiceCallback : public IXAudio2VoiceCallback
 {
@@ -26,18 +28,9 @@ public:
 //オーディオ
 class Audio
 {
-private:
-	//Microsoft::WRL::を省略する
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-
-private: //変数
-	
-	IXAudio2MasteringVoice* masterVoice;
-	XAudio2VoiceCallback voiceCallback;
-
+#pragma region 構造体
 
 public: //構造体
-	ComPtr<IXAudio2> xAudio2;
 	//チャンクヘッダ
 	struct ChunkHeader
 	{
@@ -67,19 +60,34 @@ public: //構造体
 		unsigned int bufferSize;
 	};
 
-public: //関数
+#pragma endregion
+
+#pragma region 変数
+
+public: //メンバ変数
+	ComPtr<IXAudio2> xAudio2;
+
+private: //メンバ変数
+	IXAudio2MasteringVoice* masterVoice;
+	XAudio2VoiceCallback voiceCallback;
+
+#pragma endregion
+
+#pragma region 関数
+public: //メンバ関数
 	//音声関係初期化
 	void Init();
 	//音声データ読み込み
 	SoundData SoundLoadWave(const char* filename);
 	//音声再生
 	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
-	//ループ再生
+	//ループ再生したい
 	void SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
 	//再生停止
 	void SoundStop(IXAudio2* xAudio2, const SoundData& soundData);
 	//音声データ解放
 	void SoundUnLoad(SoundData* soundData);
 
+#pragma endregion
 
 };

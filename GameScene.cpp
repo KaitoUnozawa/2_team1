@@ -34,21 +34,24 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	debugText.Init(debugTextTexNum);
 
 	// 背景テクスチャ読み込み
-	if (!Object2D::LoadTexture(1, L"Resources/texture.png")) {
+	if (!Object2D::LoadTexture(1, L"Resources/titleFont/blue.png")) {
 		assert(0);
 		return;
 	}
 	// 背景スプライト生成
 	spriteBG = Object2D::CreateSprite(1, { 0.0f,0.0f });
+
 	// 3Dオブジェクト生成
 	object3d = Object3D::CreateObject();
 	object3d->Update();
+
 	//3Dモデル作成
 	model = ModelObj::Create();
 	model->Update();
 
-	soundData[0] = audio->SoundLoadWave("Resources/test.wav");
-	soundData[1] = audio->SoundLoadWave("Resources/Alarm01.wav");
+
+	soundData[0] = audio->SoundLoadWave("Resources/Shot.wav");
+	soundData[1] = audio->SoundLoadWave("Resources/Destroy.wav");
 }
 
 void GameScene::Update()
@@ -93,7 +96,7 @@ void GameScene::Update()
 
 	model->Update();
 	//キーボード入力更新
-	KeyboardInput::Update();
+	input->Update();
 
 	
 }

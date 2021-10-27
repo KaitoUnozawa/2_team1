@@ -11,6 +11,13 @@ IDirectInputDevice8* devkeyboard = nullptr;
 int KeyboardInput::pressKey[256] = { 0 };
 int KeyboardInput::releaseKey[256] = { 0 };
 
+KeyboardInput::KeyboardInput()
+{
+}
+
+KeyboardInput::~KeyboardInput()
+{
+}
 
 //初期化
 void KeyboardInput::Init(HWND hwnd)
@@ -32,7 +39,6 @@ void KeyboardInput::Init(HWND hwnd)
 	result = devkeyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 
 }
-
 
 //毎フレーム更新
 void KeyboardInput::Update()
@@ -75,21 +81,24 @@ bool KeyboardInput::PressKeyTrigger(int key)
 {
 	return pressKey[key] == 1;
 }
-
 //キーを離した瞬間
 bool KeyboardInput::ReleaseKeyTrigger(int key)
 {
 	return releaseKey[key] == 1;
 }
-
 //キーを押している間
 bool KeyboardInput::PressKey(int key)
 {
 	return pressKey[key] > 0;
 }
-
 //キーを離している間
 bool KeyboardInput::ReleaseKey(int key)
 {
 	return releaseKey[key] > 0;
+}
+
+KeyboardInput* KeyboardInput::GetInstance()
+{
+	static KeyboardInput instance;
+	return &instance;
 }

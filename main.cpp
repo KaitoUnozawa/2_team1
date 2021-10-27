@@ -19,6 +19,9 @@
 #include"SafeDelete.h"
 #include"GameScene.h"
 #include"ModelObj.h"
+#include"Title.h"
+#include "SceneManager.h"
+#include "PressSpaceFont.h"
 
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"d3d12.lib")
@@ -56,37 +59,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 	////DirectX初期化処理　ここから
-	HRESULT result;
 		
-
 	//DirectX汎用部分
 	DirectXCommon* dxCommon = nullptr;
 	dxCommon = new DirectXCommon();
 	dxCommon->Init(win);
 
-
 	//初期化
 	Audio* audio = nullptr;
 	audio = new Audio();
 	audio->Init();
-	////音声読み込み
-	
-	
 
 	
 	////DirectInput(入力)初期化処理
-	KeyboardInput* input = nullptr;
-	input = new KeyboardInput();
+	KeyboardInput* input = KeyboardInput::GetInstance();
 	input->Init(win->hwnd);
-
 
 	////DirectX初期化処理　ここまで
 
-	
-
 
 	////描画初期化処理　ここから
-	
 	// スプライト静的初期化
 	if (!Object2D::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
@@ -104,44 +96,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		assert(0);
 		return 1;
 	}
-
-	//定数バッファへのデータ転送（初期化）
-	XMMATRIX matProjection = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(60.0f), //上下画角60度
-		(float)WindowsAPI::window_width / WindowsAPI::window_height, //アスペクト比
-		0.1f, 1000.0f);//手前，奥
-
-	//定数バッファ・テクスチャバッファ用のデスクリプタヒープ
-	const int constantBufferNum = 128; //定数バッファの最大数
-	ComPtr<ID3D12DescriptorHeap> basicDescHeap;
-	//情報構造体
-	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc{};
-	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE; //シェーダーから見える
-	descHeapDesc.NumDescriptors = constantBufferNum + 1; //定数バッファの数(+1->SRV)
-
-
-	//デスクリプタヒープの生成
-	result = dxCommon->GetDevice()->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&basicDescHeap));
-	
-
-	//デバッグテキスト
-	DebugText debugText;
-
-	//デバッグテキスト用のテクスチャ番号を指定
-	const int debugTextTexNumber = 2;
-	//デバッグテキスト用のテクスチャ読み込み
-	Object2D::LoadTexture(debugTextTexNumber, L"Resources/DebugText.png");
-	//デバッグテキスト初期化
-	debugText.Init(debugTextTexNumber);
+	if (!Wall::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!EnemyModel::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!TitleFont::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!PressSpaceFont::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
 
 	// ゲームシーンの初期化
-	GameScene* gameScene = nullptr;
-	gameScene = new GameScene();
-	gameScene->Init(dxCommon, input, audio);
+	SceneManager* sceneManager = nullptr;
+	sceneManager = new SceneManager();
+	sceneManager->Init(dxCommon, input, audio);
+
 	
 	////描画初期化処理　ここまで
-
 
 
 	while (true) //ゲームループ
@@ -164,9 +142,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 更新処理
 		input->Update();
-		gameScene->Update();
-
-		
+		sceneManager->Update();
 
 #pragma endregion
 		
@@ -177,8 +153,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//描画前処理
 		dxCommon->PreDraw();
 
-		gameScene->Draw();
-
+		sceneManager->Draw();
+		
 		//描画終了
 		dxCommon->PostDraw();
 #pragma endregion
@@ -192,15 +168,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	safe_delete(dxCommon);
 	safe_delete(audio);
-	safe_delete(input);
-	safe_delete(gameScene);
+	//safe_delete(input);
+	safe_delete(sceneManager);
+	//safe_delete(gameScene);
+	//safe_delete(title);
 
 	//ウィンドウクラスを登録解除
 	WindowsAPI::WindowClassRelease();
 	safe_delete(win);
-
-	//コンソールへの文字出力
-	OutputDebugStringA("Hello,DirectX!!\n");
 
 	return 0;
 }

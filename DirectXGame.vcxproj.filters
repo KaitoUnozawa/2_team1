@@ -43,6 +43,12 @@
     <Filter Include="ソース ファイル\Game">
       <UniqueIdentifier>{35c27ec9-e306-49ea-a09f-b2eb21c4ce0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\3Dmodel">
+      <UniqueIdentifier>{3f81f5cb-ea52-4c5c-bbdb-444b5725a7fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Scene">
+      <UniqueIdentifier>{38e1fff9-983b-4959-bab8-21078c3517a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyboardInput.h">
@@ -72,11 +78,32 @@
     <ClInclude Include="DirectXCommon.h">
       <Filter>ソース ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClInclude>
     <ClInclude Include="ModelObj.h">
       <Filter>ソース ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyModel.h">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleFont.h">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="PressSpaceFont.h">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>ソース ファイル\Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,14 +131,35 @@
     <ClCompile Include="DirectXCommon.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
     <ClCompile Include="ModelObj.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyModel.cpp">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleFont.cpp">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PressSpaceFont.cpp">
+      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
