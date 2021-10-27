@@ -8,6 +8,12 @@
 #include "Audio.h"
 #include "KeyboardInput.h"
 #include "ModelObj.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "SpownPointModel.h"
+#include "GamesceneWallUp.h"
+#include "GamesceneWallLR.h"
+
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -27,10 +33,16 @@ private: //メンバ変数
 	DebugText debugText;
 
 	//ゲームシーン用
-	Object2D* spriteBG = nullptr;
-	Object3D* object3d = nullptr;
-	ModelObj* model = nullptr;
-	Audio::SoundData soundData[2];
+	//音楽
+	Audio::SoundData soundData[3];
+
+	//壁
+	GamesceneWallUp* wallUp = nullptr;
+	GamesceneWallUp* wallDown = nullptr;
+	GamesceneWallLR* wallRight = nullptr;
+	GamesceneWallLR* wallLeft = nullptr;
+
+
 #pragma endregion
 
 #pragma region 関数

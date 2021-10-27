@@ -19,7 +19,7 @@ void SceneManager::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	game = new GameScene();
 	game->Init(dxCommon, input, audio);
 
-	scene = titleScene;
+	scene = gameScene;
 }
 
 void SceneManager::Update()

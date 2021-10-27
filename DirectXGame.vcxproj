@@ -143,18 +143,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="BulletModel.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyModel.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GamesceneWallLR.h" />
+    <ClInclude Include="GamesceneWallUp.h" />
     <ClInclude Include="KeyboardInput.h" />
     <ClInclude Include="ModelObj.h" />
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerActiveModel.h" />
+    <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="PressSpaceFont.h" />
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SpownPointModel.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="TitleFont.h" />
     <ClInclude Include="Tutorial.h" />
@@ -163,18 +172,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="BulletModel.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyModel.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GamesceneWallLR.cpp" />
+    <ClCompile Include="GamesceneWallUp.cpp" />
     <ClCompile Include="KeyboardInput.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelObj.cpp" />
     <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerActiveModel.cpp" />
+    <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="PlayerModel.cpp" />
     <ClCompile Include="PressSpaceFont.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SpownPointModel.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="TitleFont.cpp" />
     <ClCompile Include="Tutorial.cpp" />

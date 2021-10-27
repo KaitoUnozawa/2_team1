@@ -40,14 +40,41 @@
     <Filter Include="ソース ファイル\Base">
       <UniqueIdentifier>{327f9434-943b-424c-83af-f6cc3d0280d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game">
-      <UniqueIdentifier>{35c27ec9-e306-49ea-a09f-b2eb21c4ce0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Object\3Dmodel">
+    <Filter Include="ソース ファイル\3Dmodel">
       <UniqueIdentifier>{3f81f5cb-ea52-4c5c-bbdb-444b5725a7fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Scene">
+    <Filter Include="ソース ファイル\3Dmodel\Title">
+      <UniqueIdentifier>{fea4b72e-5e11-4a1d-bc75-420d1acff02d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player\Bullet">
+      <UniqueIdentifier>{aeaeb892-95ab-4501-b246-30b98868cb6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\3Dmodel\GameScene">
+      <UniqueIdentifier>{9583b13a-246a-4a6f-a193-51af8c3a1d64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\3Dmodel\GameScene\wall">
+      <UniqueIdentifier>{fbb19d8b-36aa-47b5-891d-30d6a4a0ef50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\3Dmodel\GameScene\Bullet">
+      <UniqueIdentifier>{b6f3e54c-d16d-4e52-8a27-568f6a793f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\3Dmodel\GameScene\PlayerModel">
+      <UniqueIdentifier>{6253774d-b4e5-4fd2-ab51-398e10ab6036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\3Dmodel\Enemy">
+      <UniqueIdentifier>{5f343988-5c33-44ac-aebc-e52de0d202cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameScene">
+      <UniqueIdentifier>{35c27ec9-e306-49ea-a09f-b2eb21c4ce0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameScene\GamePlayScene">
       <UniqueIdentifier>{38e1fff9-983b-4959-bab8-21078c3517a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameScene\TitleScene">
+      <UniqueIdentifier>{1b49f521-cf5d-49ff-88ea-6c4504ae5e71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GameScene\Tutorial">
+      <UniqueIdentifier>{2134dae5-8f52-4c16-8b5b-75845e43db62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,29 +108,56 @@
     <ClInclude Include="ModelObj.h">
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyModel.h">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
-    </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleFont.h">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>ソース ファイル\Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="GameScene.h">
-      <Filter>ソース ファイル\Game\Scene</Filter>
+      <Filter>ソース ファイル\GameScene\GamePlayScene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>ソース ファイル\Game</Filter>
+      <Filter>ソース ファイル\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="PressSpaceFont.h">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+      <Filter>ソース ファイル\3Dmodel\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleFont.h">
+      <Filter>ソース ファイル\3Dmodel\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>ソース ファイル\3Dmodel\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ソース ファイル\Player\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GamesceneWallUp.h">
+      <Filter>ソース ファイル\3Dmodel\GameScene\wall</Filter>
+    </ClInclude>
+    <ClInclude Include="GamesceneWallLR.h">
+      <Filter>ソース ファイル\3Dmodel\GameScene\wall</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletModel.h">
+      <Filter>ソース ファイル\3Dmodel\GameScene\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActiveModel.h">
+      <Filter>ソース ファイル\3Dmodel\GameScene\PlayerModel</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerModel.h">
+      <Filter>ソース ファイル\3Dmodel\GameScene\PlayerModel</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyModel.h">
+      <Filter>ソース ファイル\3Dmodel\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SpownPointModel.h">
+      <Filter>ソース ファイル\3Dmodel\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>ソース ファイル\GameScene\TitleScene</Filter>
     </ClInclude>
     <ClInclude Include="Tutorial.h">
-      <Filter>ソース ファイル\Game\Scene</Filter>
+      <Filter>ソース ファイル\GameScene\Tutorial</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -132,34 +186,61 @@
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル\Game</Filter>
+      <Filter>ソース ファイル\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="ModelObj.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyModel.cpp">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
-    </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleFont.cpp">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
-    </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="GameScene.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
+      <Filter>ソース ファイル\GameScene\GamePlayScene</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>ソース ファイル\Game</Filter>
+      <Filter>ソース ファイル\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="PressSpaceFont.cpp">
-      <Filter>ソース ファイル\Object\3Dmodel</Filter>
+      <Filter>ソース ファイル\3Dmodel\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleFont.cpp">
+      <Filter>ソース ファイル\3Dmodel\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>ソース ファイル\3Dmodel\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\Player\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GamesceneWallLR.cpp">
+      <Filter>ソース ファイル\3Dmodel\GameScene\wall</Filter>
+    </ClCompile>
+    <ClCompile Include="GamesceneWallUp.cpp">
+      <Filter>ソース ファイル\3Dmodel\GameScene\wall</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletModel.cpp">
+      <Filter>ソース ファイル\3Dmodel\GameScene\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActiveModel.cpp">
+      <Filter>ソース ファイル\3Dmodel\GameScene\PlayerModel</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerModel.cpp">
+      <Filter>ソース ファイル\3Dmodel\GameScene\PlayerModel</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyModel.cpp">
+      <Filter>ソース ファイル\3Dmodel\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SpownPointModel.cpp">
+      <Filter>ソース ファイル\3Dmodel\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>ソース ファイル\GameScene\TitleScene</Filter>
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
+      <Filter>ソース ファイル\GameScene\Tutorial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

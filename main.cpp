@@ -22,6 +22,8 @@
 #include"Title.h"
 #include "SceneManager.h"
 #include "PressSpaceFont.h"
+#include "GamesceneWallUp.h"
+#include "GamesceneWallLR.h"
 
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"d3d12.lib")
@@ -109,6 +111,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		return 1;
 	}
 	if (!PressSpaceFont::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!GamesceneWallUp::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!GamesceneWallLR::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
 		return 1;
 	}
