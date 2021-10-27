@@ -94,10 +94,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	// 3Dモデル静的初期化
-	if (!ModelObj::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
-		assert(0);
-		return 1;
-	}
 	if (!Wall::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
 		assert(0);
 		return 1;
@@ -122,6 +118,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		assert(0);
 		return 1;
 	}
+	if (!PlayerModel::StaticInitialize(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!PlayerActiveModel::StaticInitialize(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!BulletModel::StaticInitialize(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+	if (!SpownPointModel::StaticInit(dxCommon->GetDevice(), WindowsAPI::window_width, WindowsAPI::window_height)) {
+		assert(0);
+		return 1;
+	}
+
 
 	// ゲームシーンの初期化
 	SceneManager* sceneManager = nullptr;

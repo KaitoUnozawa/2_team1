@@ -10,15 +10,8 @@ Player::Player()
 
 Player::~Player()
 {
-	safe_delete(p2object);
-	safe_delete(p2object2);
-	safe_delete(p2object3);
-	safe_delete(p2object4);
-
-	safe_delete(pobject);
-	safe_delete(pobject2);
-	safe_delete(pobject3);
-	safe_delete(pobject4);
+	safe_delete(*activePlayerObj);
+	safe_delete(*playerObj);
 
 }
 
@@ -32,81 +25,56 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 	this->dxCommon = dxCommon;
 	this->input = input;
 	this->audio = audio;
-	pobject = PlayerModel::Create();
-	XMFLOAT3 position21 = pobject->GetPosition();
-	position21 = { 0.0f,-42.0f,0.0f };
-	pobject->SetPosition(position21);
-	XMFLOAT3 scale21 = pobject->GetScale();
-	scale21 = { 2.0f,2.0f,2.0f };
-	pobject->SetScale(scale21);
-	pobject->Update();
 
-	pobject2 = PlayerModel::Create();
-	XMFLOAT3 position22 = pobject2->GetPosition();
-	position22 = { 0.0f,42.0f,0.0f };
-	pobject2->SetPosition(position22);
-	XMFLOAT3 scale22 = pobject2->GetScale();
-	scale22 = { 2.0f,2.0f,2.0f };
-	pobject2->SetScale(scale22);
-	pobject2->Update();
+	//プレイヤー初期化
+	{
+		playerObj[DOWN] = PlayerModel::Create();
+		playerObj[DOWN]->SetPosition({ 0.0f,-42.0f,0.0f });
+		playerObj[DOWN]->SetScale({ 2.0f,2.0f,2.0f });
+		playerObj[DOWN]->Update();
 
-	pobject3 = PlayerModel::Create();
-	XMFLOAT3 position23 = pobject3->GetPosition();
-	position23 = { -42.0f,0.0f,0.0f };
-	pobject3->SetPosition(position23);
-	XMFLOAT3 scale23 = pobject3->GetScale();
-	scale23 = { 2.0f,2.0f,2.0f };
-	pobject3->SetScale(scale23);
-	pobject3->Update();
+		playerObj[LEFT] = PlayerModel::Create();
+		playerObj[LEFT]->SetPosition({ -42.0f,0.0f,0.0f });
+		playerObj[LEFT]->SetScale({ 2.0f,2.0f,2.0f });
+		playerObj[LEFT]->Update();
 
-	pobject4 = PlayerModel::Create();
-	XMFLOAT3 position24 = pobject4->GetPosition();
-	position24 = { 42.0f,0.0f,0.0f };
-	pobject4->SetPosition(position24);
-	XMFLOAT3 scale24 = pobject4->GetScale();
-	scale24 = { 2.0f,2.0f,2.0f };
-	pobject4->SetScale(scale24);
-	pobject4->Update();
+		playerObj[UP] = PlayerModel::Create();
+		playerObj[UP]->SetPosition({ 0.0f,42.0f,0.0f });
+		playerObj[UP]->SetScale({ 2.0f,2.0f,2.0f });
+		playerObj[UP]->Update();
 
-	p2object = PlayerActiveModel::Create();
-	XMFLOAT3 p2position1 = p2object->GetPosition();
-	p2position1 = { 0.0f,-42.0f,0.0f };
-	p2object->SetPosition(p2position1);
-	XMFLOAT3 p2scale1 = p2object->GetScale();
-	p2scale1 = { 2.0f,2.0f,2.0f };
-	p2object->SetScale(p2scale1);
-	p2object->Update();
+		playerObj[RIGHT] = PlayerModel::Create();
+		playerObj[RIGHT]->SetPosition({ 42.0f,0.0f,0.0f });
+		playerObj[RIGHT]->SetScale({ 2.0f,2.0f,2.0f });
+		playerObj[RIGHT]->Update();
+	}
 
-	p2object2 = PlayerActiveModel::Create();
-	XMFLOAT3 p2position2 = pobject2->GetPosition();
-	p2position2 = { 0.0f,42.0f,0.0f };
-	p2object2->SetPosition(p2position2);
-	XMFLOAT3 p2scale2 = pobject2->GetScale();
-	p2scale2 = { 2.0f,2.0f,2.0f };
-	p2object2->SetScale(p2scale2);
-	p2object2->Update();
+	//アチーブ化プレイヤー初期化
+	{
+		activePlayerObj[DOWN] = PlayerActiveModel::Create();
+		activePlayerObj[DOWN]->SetPosition({ 0.0f,-42.0f,0.0f });
+		activePlayerObj[DOWN]->SetScale({ 3.0f,3.0f,3.0f });
+		activePlayerObj[DOWN]->Update();
 
-	p2object3 = PlayerActiveModel::Create();
-	XMFLOAT3 p2position3 = pobject3->GetPosition();
-	p2position3 = { -42.0f,0.0f,0.0f };
-	p2object3->SetPosition(p2position3);
-	XMFLOAT3 p2scale3 = pobject3->GetScale();
-	p2scale3 = { 2.0f,2.0f,2.0f };
-	p2object3->SetScale(p2scale3);
-	p2object3->Update();
+		activePlayerObj[LEFT] = PlayerActiveModel::Create();
+		activePlayerObj[LEFT]->SetPosition({ -42.0f,0.0f,0.0f });
+		activePlayerObj[LEFT]->SetScale({ 3.0f,3.0f,3.0f });
+		activePlayerObj[LEFT]->Update();
 
-	p2object4 = PlayerActiveModel::Create();
-	XMFLOAT3 p2position4 = pobject4->GetPosition();
-	p2position4 = { 42.0f,0.0f,0.0f };
-	p2object4->SetPosition(p2position4);
-	XMFLOAT3 p2scale4 = pobject4->GetScale();
-	p2scale4 = { 2.0f,2.0f,2.0f };
-	p2object4->SetScale(p2scale4);
-	p2object4->Update();
+		activePlayerObj[UP] = PlayerActiveModel::Create();
+		activePlayerObj[UP]->SetPosition({ 0.0f,42.0f,0.0f });
+		activePlayerObj[UP]->SetScale({ 3.0f,3.0f,3.0f });
+		activePlayerObj[UP]->Update();
 
+		activePlayerObj[RIGHT] = PlayerActiveModel::Create();
+		activePlayerObj[RIGHT]->SetPosition({ 42.0f,0.0f,0.0f });
+		activePlayerObj[RIGHT]->SetScale({ 3.0f,3.0f,3.0f });
+		activePlayerObj[RIGHT]->Update();
+	}
 
 	bullet = new PlayerBullet();
 	bullet->Initialize(dxCommon);
+	bullet->SetPosition({ -500,-500,-500 });
 
 	/*bullet2 = new Bullet2();
 	bullet2->Initialize(dxCommon);*/
@@ -114,158 +82,171 @@ void Player::Initialize(DirectXCommon* dxCommon, KeyboardInput* input, Audio* au
 
 void Player::Update()
 {
-	XMFLOAT3 Mposition1 = pobject->GetPosition();
-	XMFLOAT3 Mposition2 = pobject2->GetPosition();
-	XMFLOAT3 Mposition3 = pobject3->GetPosition();
-	XMFLOAT3 Mposition4 = pobject4->GetPosition();
+	XMFLOAT3 movePosition[4];
+	for (int i = 0; i < 4; i++)
+	{
+		movePosition[i] = playerObj[i]->GetPosition();
+	}
 
-	XMFLOAT3 M2position1 = p2object->GetPosition();
-	XMFLOAT3 M2position2 = p2object2->GetPosition();
-	XMFLOAT3 M2position3 = p2object3->GetPosition();
-	XMFLOAT3 M2position4 = p2object4->GetPosition();
-	XMFLOAT3 position = bullet->GetPosition();
+	XMFLOAT3 moveActivePosition[4];
+	for (int i = 0; i < 4; i++)
+	{
+		moveActivePosition[i] = activePlayerObj[i]->GetPosition();
+	}
+	
+	XMFLOAT3 bulletPos = bullet->GetPosition();
 	//XMFLOAT3 position2 = bullet2->GetPosition();
 
 #pragma region	プレイヤー操作と弾
-	if (mflag == 0) {
+	if (bulletMoveFlag == 0) {
 		if (input->PressKeyTrigger(DIK_SPACE)) {
-			playerSpeed1 = -playerSpeed1;
-			playerSpeed2 = -playerSpeed2;
-			playerSpeed3 = -playerSpeed3;
-			playerSpeed4 = -playerSpeed4;
+			bulletSelectFlag++;
 
-			bflag++;
-			if (bflag == 5) {
-				bflag = 1;
+			if (bulletSelectFlag == 5) {
+				bulletSelectFlag = 1;
 			}
-			if (bflag == 1) {
-				mflag = 1;
-				playerActive2 = 1;
-				playerActive1 = 0;
-				/*position2.x = Mposition1.x;
-				position2.y = Mposition1.y;
-				position2.z = Mposition1.z;*/
+			if (bulletSelectFlag == 1) {
+				bulletMoveFlag = 1;
+				playerActive[DOWN] = 0;
+				playerActive[RIGHT] = 1;
+				bulletPos.x = movePosition[0].x;
+				bulletPos.y = movePosition[0].y;
+				bulletPos.z = movePosition[0].z;
+				bullet->SetPosition(bulletPos);
 			}
-			if (bflag == 3) {
-				mflag = 1;
-				playerActive4 = 1;
-				playerActive3 = 0;
-				/*position2.x = Mposition2.x;
-				position2.y = Mposition2.y;
-				position2.z = Mposition2.z;*/
+			if (bulletSelectFlag == 2) {
+				bulletMoveFlag = 1;
+				playerActive[RIGHT] = 0;
+				playerActive[UP] = 1;
+				bulletPos.x = movePosition[1].x;
+				bulletPos.y = movePosition[1].y;
+				bulletPos.z = movePosition[1].z;
+				bullet->SetPosition(bulletPos);
 			}
-			if (bflag == 4) {
-				mflag = 1;
-				playerActive1 = 1;
-				playerActive4 = 0;
-				position.x = Mposition3.x;
-				position.y = Mposition3.y;
-				position.z = Mposition3.z;
+			if (bulletSelectFlag == 3) {
+				bulletMoveFlag = 1;
+				playerActive[UP] = 0;
+				playerActive[LEFT] = 1;
+				bulletPos.x = movePosition[2].x;
+				bulletPos.y = movePosition[2].y;
+				bulletPos.z = movePosition[2].z;
+				bullet->SetPosition(bulletPos);
 			}
-			if (bflag == 2) {
-				mflag = 1;
-				playerActive3 = 1;
-				playerActive2 = 0;
-				position.x = Mposition4.x;
-				position.y = Mposition4.y;
-				position.z = Mposition4.z;
+			if (bulletSelectFlag == 4) {
+				bulletMoveFlag = 1;
+				playerActive[LEFT] = 0;
+				playerActive[DOWN] = 1;
+				bulletPos.x = movePosition[3].x;
+				bulletPos.y = movePosition[3].y;
+				bulletPos.z = movePosition[3].z;
+				bullet->SetPosition(bulletPos);
 			}
 		}
+
+		
 	}
-	if (mflag == 1)
+	if (bulletMoveFlag == 1)
 	{
-		/*if (bflag == 1) {
-			position2.y += 2;
-			if (position2.y >= 100) {
-				mflag = 0;
+		if (bulletSelectFlag == 1) {
+			bulletPos.y += 2;
+			if (bulletPos.y >= 50) {
+				bulletMoveFlag = 0;
+				bulletPos = { -500,-500,-500 };
 			}
 		}
-		if (bflag == 3) {
-			position2.y -= 2;
-			if (position2.y <= -100) {
-				mflag = 0;
+		if (bulletSelectFlag == 2) {
+			bulletPos.x += 2;
+			if (bulletPos.x >= 50) {
+				bulletMoveFlag = 0;
+				bulletPos = { -500,-500,-500 };
 			}
 		}
-		if (bflag == 4) {
-			position.x += 2;
-			if (position.x >= 110) {
-				mflag = 0;
+		if (bulletSelectFlag == 3) {
+			bulletPos.y -= 2;
+			if (bulletPos.y <= -50) {
+				bulletMoveFlag = 0;
+				bulletPos = { -500,-500,-500 };
 			}
 		}
-		if (bflag == 2) {
-			position.x -= 2;
-			if (position.x <= -110) {
-				mflag = 0;
+		if (bulletSelectFlag == 4) {
+			bulletPos.x -= 2;
+			if (bulletPos.x <= -50) {
+				bulletMoveFlag = 0;
+				bulletPos = { -500,-500,-500 };
 			}
-		}*/
+			
+		}
 	}
 #pragma endregion
 
 #pragma region	プレイヤー移動
 	// プレイヤーオブジェクト移動
-	Mposition1.x += playerSpeed1;
-	Mposition2.x += playerSpeed2;
-	Mposition3.y += playerSpeed3;
-	Mposition4.y += playerSpeed4;
+	for (int i = 0; i < 4; i++)
+	{
+		if (i % 2 == 0)movePosition[i].x += playerSpeed[i];
+		else movePosition[i].y += playerSpeed[i];
+		if (i % 2 == 0) moveActivePosition[i].x += playerSpeed[i];
+		else moveActivePosition[i].y += playerSpeed[i];
+		
+	}
+	
+	//反転通常処理
+	{
+		if (movePosition[0].x <= -43) { playerSpeed[0] = 0.5f; }
+		else if (movePosition[0].x >= 43) { playerSpeed[0] = -0.5f; }
+		if (movePosition[1].y >= 43) { playerSpeed[1] = -0.5f; }
+		else if (movePosition[1].y <= -43) { playerSpeed[1] = 0.5f; }
+		if (movePosition[2].x >= 43) { playerSpeed[2] = -0.5f; }
+		else if (movePosition[2].x <= -43) { playerSpeed[2] = 0.5f; }
+		if (movePosition[3].y <= -43) { playerSpeed[3] = 0.5f; }
+		else if (movePosition[3].y >= 43) { playerSpeed[3] = -0.5f; }
 
-	M2position1.x += playerSpeed1;
-	M2position2.x += playerSpeed2;
-	M2position3.y += playerSpeed3;
-	M2position4.y += playerSpeed4;
+	}
+	//アチーブ用反転処理
+	{
+		if (moveActivePosition[0].x <= -43) { playerSpeed[0] = 0.5f; }
+		else if (moveActivePosition[0].x >= 43) { playerSpeed[0] = -0.5f; }
+		if (moveActivePosition[1].y >= 43) { playerSpeed[1] = -0.5f; }
+		else if (moveActivePosition[1].y <= -43) { playerSpeed[1] = 0.5f; }
+		if (moveActivePosition[2].x >= 43) { playerSpeed[2] = -0.5f; }
+		else if (moveActivePosition[2].x <= -43) { playerSpeed[2] = 0.5f; }
+		if (moveActivePosition[3].y <= -43) { playerSpeed[3] = 0.5f; }
+		else if (moveActivePosition[3].y >= 43) { playerSpeed[3] = -0.5f; }
 
-	if (Mposition1.x >= -43 && Mposition1.x <= -43) { playerSpeed1 = 0.5f; }
-	if (Mposition2.x >= 43 && Mposition2.x <= 43) { playerSpeed2 = -0.5f; }
-	if (Mposition3.y >= 43 && Mposition3.y <= 43) { playerSpeed3 = -0.5f; }
-	if (Mposition4.y >= -43 && Mposition4.y <= -43) { playerSpeed4 = 0.5f; }
-
-	if (M2position1.x >= -43 && M2position1.x <= -43) { playerSpeed1 = 0.5f; }
-	if (M2position2.x >= 43 && M2position2.x <= 43) { playerSpeed2 = -0.5f; }
-	if (M2position3.y >= 43 && M2position3.y <= 43) { playerSpeed3 = -0.5f; }
-	if (M2position4.y >= -43 && M2position4.y <= -43) { playerSpeed4 = 0.5f; }
-
-
-	if (Mposition1.x >= 43 && Mposition1.x <= 43) { playerSpeed1 = -0.5f; }
-	if (Mposition2.x >= -43 && Mposition2.x <= -43) { playerSpeed2 = 0.5f; }
-	if (Mposition3.y >= -43 && Mposition3.y <= -43) { playerSpeed3 = 0.5f; }
-	if (Mposition4.y >= 43 && Mposition4.y <= 43) { playerSpeed4 = -0.5f; }
-
-	if (M2position1.x >= 43 && M2position1.x <= 43) { playerSpeed1 = -0.5f; }
-	if (M2position2.x >= -43 && M2position2.x <= -43) { playerSpeed2 = 0.5f; }
-	if (M2position3.y >= -43 && M2position3.y <= -43) { playerSpeed3 = 0.5f; }
-	if (M2position4.y >= 43 && M2position4.y <= 43) { playerSpeed4 = -0.5f; }
-
+	}
+	
 #pragma region	エネミー以外のSetter
 
-	pobject->SetPosition(Mposition1);
-	pobject2->SetPosition(Mposition2);
-	pobject3->SetPosition(Mposition3);
-	pobject4->SetPosition(Mposition4);
-
-	p2object->SetPosition(M2position1);
-	p2object2->SetPosition(M2position2);
-	p2object3->SetPosition(M2position3);
-	p2object4->SetPosition(M2position4);
-	bullet->SetPosition(position);
+	for (int i = 0; i < 4; i++)
+	{
+		playerObj[i]->SetPosition(movePosition[i]);
+	}
+	
+	for (int i = 0; i < 4; i++)
+	{
+		activePlayerObj[i]->SetPosition(moveActivePosition[i]);
+	}
+	
+	bullet->SetPosition(bulletPos);
 	//bullet2->SetPosition(position2);
+
 #pragma endregion
 
+	for (int i = 0; i < 4; i++)
+	{
+		playerObj[i]->Update();
+	}
 
-	pobject->Update();
-	pobject2->Update();
-	pobject3->Update();
-	pobject4->Update();
-
-	p2object->Update();
-	p2object2->Update();
-	p2object3->Update();
-	p2object4->Update();
-
+	for (int i = 0; i < 4; i++)
+	{
+		activePlayerObj[i]->Update();
+	}
 
 	bullet->Update();
 	//bullet2->Update();
 #pragma endregion
 
-
+	bullet->Update();
 }
 
 void Player::Draw()
@@ -277,32 +258,36 @@ void Player::Draw()
 	PlayerActiveModel::PreDraw(cmdList);
 	bullet->Draw();
 	//bullet2->Draw();
-	if (playerActive1 == 0) {
-		pobject->Draw();
+
+	if (playerActive[0] == 0) {
+		playerObj[DOWN]->Draw();
 	}
-	if (playerActive2 == 0) {
-		pobject4->Draw();
-	}
-	if (playerActive3 == 0) {
-		pobject2->Draw();
-	}
-	if (playerActive4 == 0) {
-		pobject3->Draw();
-	}
-	if (playerActive1 == 1) {
-		p2object->Draw();
-	}
-	if (playerActive2 == 1) {
-		p2object4->Draw();
-	}
-	if (playerActive3 == 1) {
-		p2object2->Draw();
-	}
-	if (playerActive4 == 1) {
-		p2object3->Draw();
+	else if (playerActive[0] == 1) {
+		activePlayerObj[DOWN]->Draw();
 	}
 
+	if (playerActive[1] == 0) {
+		playerObj[RIGHT]->Draw();
+	}
+	else if (playerActive[1] == 1) {
+		activePlayerObj[RIGHT]->Draw();
+	}
 
+	if (playerActive[2] == 0) {
+		playerObj[UP]->Draw();
+	}
+	else if (playerActive[2] == 1) {
+		activePlayerObj[UP]->Draw();
+	}
+
+	if (playerActive[3] == 0) {
+		playerObj[LEFT]->Draw();
+	}
+	else if (playerActive[3] == 1) {
+		activePlayerObj[LEFT]->Draw();
+	}
+	
+	
 	PlayerModel::PostDraw();
 	PlayerActiveModel::PostDraw();
 

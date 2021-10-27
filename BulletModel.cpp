@@ -101,8 +101,8 @@ BulletModel* BulletModel::Create()
 		return nullptr;
 	}
 
-	//float scale_val = 10;
-	//BulletModel->scale = { scale_val,scale_val,scale_val };
+	float scale_val = 2;
+	object3d->scale = { scale_val,scale_val,scale_val };
 
 	return object3d;
 }

@@ -41,8 +41,8 @@ void Enemy::Update()
 		angle = rand() % 360 + 1;
 	}
 
-	position.x += (cosf(angle) + enemySpeed1) / 2;
-	position.y += (sinf(angle) + enemySpeed2) / 2;
+	position.x += (cosf(angle)) * enemyMoveSpeed;
+	position.y += (sinf(angle)) * enemyMoveSpeed;
 
 	enemy->SetPosition(position);
 	enemy->Update();

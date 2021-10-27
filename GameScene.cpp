@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include <cassert>
+#include <time.h>
 
 using namespace DirectX;
 
@@ -13,6 +14,10 @@ GameScene::~GameScene()
 	safe_delete(wallDown);
 	safe_delete(wallRight);
 	safe_delete(wallLeft);
+	safe_delete(spown);
+
+	safe_delete(player);
+	safe_delete(*enemy);
 }
 
 void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
@@ -33,18 +38,6 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	}
 	// デバッグテキスト初期化
 	debugText.Init(debugTextTexNum);
-
-	// 背景テクスチャ読み込み
-	if (!Object2D::LoadTexture(1, L"Resources/titleFont/blue.png")) {
-		assert(0);
-		return;
-	}
-	// 背景スプライト生成
-	//spriteBG = Object2D::CreateSprite(1, { 0.0f,0.0f });
-
-	// 3Dオブジェクト生成
-	//object3d = Object3D::CreateObject();
-	//object3d->Update();
 
 	//3Dモデル
 #pragma region 壁
@@ -72,56 +65,69 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	wallLeft->SetScale({ 15.0f,3.5f,1.0f });
 	wallLeft->Update();
 #pragma endregion
+	//プレイヤー
+	player = new Player();
+	player->Initialize(dxCommon, input, audio);
 
+	//エネミー
+	for (int i = 0; i < enemyMaxNum; i++)
+	{
+		enemy[i] = new Enemy();
+		enemy[i]->Init(dxCommon, input, audio);
+	}
+	for (int i = 0; i < enemyMaxNum; i++)
+	{
+		XMFLOAT3 enemyPosition[enemyMaxNum] = { { 0, 0, 0} };
+		enemyPosition[i] = enemy[i]->GetPosition();
+		enemy[i]->SetPosition(enemyPosition[i]);
 
+		enemy[i]->Update();
+	}
+	srand(time(NULL));
 
+	//スポーンポイント
+	spown = SpownPointModel::Create();
+	spown->Update();
+
+	//音楽
 	soundData[0] = audio->SoundLoadWave("Resources/Shot.wav");
 	soundData[1] = audio->SoundLoadWave("Resources/Destroy.wav");
+	soundData[2] = audio->SoundLoadWave("Resources/musicloop.wav");
+	//再生
+	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[2]);
 }
 
 void GameScene::Update()
 {
-	//// オブジェクト移動
-	//if (input->PressKey(DIK_UP) || input->PressKey(DIK_DOWN) || input->PressKey(DIK_RIGHT) || input->PressKey(DIK_LEFT))
-	//{
-	//	// 現在の座標を取得
-	//	XMFLOAT3 position = model->GetPosition();
+#pragma region 弾とエネミーの当たり判定
 
-	//	// 移動後の座標を計算
-	//	if (input->PressKey(DIK_UP)) { position.y += 1.0f; }
-	//	else if (input->PressKey(DIK_DOWN)) { position.y -= 1.0f; }
-	//	if (input->PressKey(DIK_RIGHT)) { position.x += 1.0f; }
-	//	else if (input->PressKey(DIK_LEFT)) { position.x -= 1.0f; }
 
-	//	// 座標の変更を反映
-	//	model->SetPosition(position);
-	//}
+#pragma endregion
 
-	//// カメラ移動
-	//if (input->PressKey(DIK_W) || input->PressKey(DIK_S) || input->PressKey(DIK_D) || input->PressKey(DIK_A))
-	//{
-	//	if (input->PressKey(DIK_W)) { Object3D::CameraMoveVector({ 0.0f,+1.0f,0.0f }); }
-	//	else if (input->PressKey(DIK_S)) { Object3D::CameraMoveVector({ 0.0f,-1.0f,0.0f }); }
-	//	if (input->PressKey(DIK_D)) { Object3D::CameraMoveVector({ +1.0f,0.0f,0.0f }); }
-	//	else if (input->PressKey(DIK_A)) { Object3D::CameraMoveVector({ -1.0f,0.0f,0.0f }); }
-	//}
-
-	//キーが押されているときの処理例
-	if (input->PressKeyTrigger(DIK_0))
-	{
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
+#pragma region エネミー発生
+	if (spownTimer > 0) {
+		spownTimer--;
 	}
+	if (spownTimer <= 0) {
+		if (enemyCount < enemyMaxNum) {
+			enemyCount;
+		}
+		spownTimer = 100;
+	}
+	enemyAlive[enemyCount] = true;
+	enemy[enemyCount]->Update();
+	for (int i = 0; i < enemyMaxNum; i++) {
+		enemy[i]->Update();
 
-	//音声再生例
-	//SoundPlayWave(xAudio2.Get(),soundData1);
-	if (input->PressKeyTrigger(DIK_M))
+	}
+#pragma endregion
+
+	//Spaceで弾発射
+	if (input->PressKeyTrigger(DIK_SPACE))
 	{
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0]);
+		player->Update();
 	}
-
-	//model->Update();
-	//キーボード入力更新
-	input->Update();
 
 	//壁
 	{
@@ -130,8 +136,12 @@ void GameScene::Update()
 		wallRight->Update();
 		wallLeft->Update();
 	}
-	
-	
+	//プレイヤー
+	player->Update();
+	//スポーンポイント
+	spown->Update();
+	//キーボード入力更新
+	input->Update();
 }
 
 void GameScene::Draw()
@@ -140,33 +150,11 @@ void GameScene::Draw()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 #pragma region 背景スプライト描画
-	// 背景スプライト描画前処理
-	//Object2D::PreDraw(cmdList);
-	// 背景スプライト描画
-	//spriteBG->Draw();
-
-	/// <summary>
-	/// ここに背景スプライトの描画処理を追加できる
-	/// </summary>
-
-	// スプライト描画後処理
-	//Object2D::PostDraw();
-	// 深度バッファクリア
 	dxCommon->ClearDepthBuffer();
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
-	// 3Dオブジェクト描画前処理
 	//Object3D::PreDraw(cmdList);
-
-	// 3Dオブクジェクトの描画
-	//object3d->Draw();
-
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
-
-	// 3Dオブジェクト描画後処理
 	//Object3D::PostDraw();
 #pragma endregion
 
@@ -183,31 +171,31 @@ void GameScene::Draw()
 		wallLeft->Draw();
 		GamesceneWallLR::PostDraw();
 	}
-	
+	//スポーンポイント
+	SpownPointModel::PreDraw(cmdList);
+	spown->Draw();
+	SpownPointModel::PostDraw();
 
-	ModelObj::PreDraw(cmdList);
-	ModelObj::PostDraw();
+	//プレイヤー
+	player->Draw();
+	//エネミー
+	for (int i = 0; i < enemyMaxNum; i++) {
+		if (enemyAlive[i])
+		{
+			enemy[i]->Draw();
+		}
+	}
 
-	
+
+	//ModelObj::PreDraw(cmdList);
+	//ModelObj::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Object2D::PreDraw(cmdList);
-
-	/// <summary>
-	/// ここに前景スプライトの描画処理を追加できる
-
-	//AL3 1-2追加
-	//sprite1->Draw();
-	//sprite2->Draw();
-
-	/// </summary>
-
-
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
-
 	// スプライト描画後処理
 	Object2D::PostDraw();
 #pragma endregion

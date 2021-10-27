@@ -424,8 +424,7 @@ void SpownPointModel::CreateModel()
 	std::ifstream file;
 	//objファイルを開く
 	//file.open("Resources/triangle_tex/triangle_tex.obj");
-	//const string modelname = "spownpoint";
-	const string modelname = "wall";
+	const string modelname = "spownpoint";
 	const string filename = modelname + ".obj"; //"triangle_mat.obj"
 	const string directoryPath = "Resources/" + modelname + "/"; //"Resources/triangle_mat/"
 	file.open(directoryPath + filename);

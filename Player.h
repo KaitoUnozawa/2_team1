@@ -30,6 +30,8 @@ public:
 	/// </summary>
 	void Draw();
 
+	bool PressSpace() { return true; }
+
 
 private:
 	DirectXCommon* dxCommon = nullptr;
@@ -40,31 +42,28 @@ private:
 	//Bullet2* bullet2 = nullptr;
 
 	//プレイヤー
-	PlayerModel* pobject = nullptr;
-	PlayerModel* pobject2 = nullptr;
-	PlayerModel* pobject3 = nullptr;
-	PlayerModel* pobject4 = nullptr;
-
+	PlayerModel* playerObj[4];
 	//弾を発射できるプレイヤー
-	PlayerActiveModel* p2object = nullptr;
-	PlayerActiveModel* p2object2 = nullptr;
-	PlayerActiveModel* p2object3 = nullptr;
-	PlayerActiveModel* p2object4 = nullptr;
+	PlayerActiveModel* activePlayerObj[4];
+	//方向に対応
+	enum Direction {
+		DOWN, //0
+		LEFT, //1
+		UP,   //2
+		RIGHT //3
+	};
+	Direction direction = DOWN;
+
 	//注目プレイヤー切り替え
-	int bflag = 0;
+	int bulletSelectFlag = 0;
 	//弾発射時に使用するフラグ
-	int mflag = 0;
+	int bulletMoveFlag = 0;
 	//注目されてるよ
-	int playerActive1 = 1;
-	int playerActive2 = 0;
-	int playerActive3 = 0;
-	int playerActive4 = 0;
+	bool playerActive[4] = { 1,0,0,0 };
 
 	//プレイヤーのスピード
-	float playerSpeed1 = 0.5f;
-	float playerSpeed2 = -0.5f;
-	float playerSpeed3 = -0.5f;
-	float playerSpeed4 = 0.5f;
+	float playerSpeed[4] = { 0.5f,-0.5f,-0.5f,0.5f };
+	
 
 
 };

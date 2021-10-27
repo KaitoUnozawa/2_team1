@@ -36,12 +36,14 @@ private:
 	Audio* audio = nullptr;
 	EnemyModel* enemy = nullptr;
 	PlayerBullet* bullet = nullptr;
-	int enemyAlive;
-	float enemySpeed1 = 0.05f;
-	float enemySpeed2 = -0.05f;
+	bool enemyAlive = false;
+	//float enemySpeed1 = 0.05f;
+	float enemyMoveSpeed = -0.05f;
 	int enemyCount = 0;
 	float angle = 0;
 	const float radius1 = 2.0f;
 	const float radius2 = 2.0f;
 	XMFLOAT3 position;
+	// スポーン用タイマー
+	int spownTimer = 50;
 };

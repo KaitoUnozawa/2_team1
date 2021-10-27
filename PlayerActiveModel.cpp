@@ -101,8 +101,8 @@ PlayerActiveModel* PlayerActiveModel::Create()
 		return nullptr;
 	}
 
-	//float scale_val = 10;
-	//PlayerActiveModel->scale = { scale_val,scale_val,scale_val };
+	float scale_val = 1;
+	object3d->scale = { scale_val,scale_val,scale_val };
 
 	return object3d;
 }
@@ -189,7 +189,7 @@ bool PlayerActiveModel::InitializeGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/OBJVertexShader.hlsl",	// シェーダファイル名
+		L"Resources/shaders/ObjVS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -212,7 +212,7 @@ bool PlayerActiveModel::InitializeGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/OBJPixelShader.hlsl",	// シェーダファイル名
+		L"Resources/shaders/ObjPS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -454,7 +454,7 @@ void PlayerActiveModel::CreateModel()
 
 	std::ifstream file;
 	//file.open("Resources/triangle/triangle_mat.obj");
-	const string modelname = "player2";
+	const string modelname = "playeractive";
 	const string filename = modelname + ".obj";
 	const string directoryPath = "Resources/" + modelname + "/";
 	file.open(directoryPath + filename);

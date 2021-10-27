@@ -26,11 +26,8 @@ void PlayerBullet::Initialize(DirectXCommon* dxCommon)
 
 void PlayerBullet::Update()
 {
-	//ˆÊ’u‚ðŽæ“¾
-	position = bulletObj->GetPosition();
-	position = { 1.0f,1.0f,1.0f };
 	bulletObj->SetPosition(position);
-
+	bulletObj->Update();
 }
 
 void PlayerBullet::Draw()

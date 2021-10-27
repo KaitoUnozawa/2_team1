@@ -233,14 +233,14 @@
     <ClCompile Include="EnemyModel.cpp">
       <Filter>ソース ファイル\3Dmodel\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="SpownPointModel.cpp">
-      <Filter>ソース ファイル\3Dmodel\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Title.cpp">
       <Filter>ソース ファイル\GameScene\TitleScene</Filter>
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
       <Filter>ソース ファイル\GameScene\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="SpownPointModel.cpp">
+      <Filter>ソース ファイル\3Dmodel\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

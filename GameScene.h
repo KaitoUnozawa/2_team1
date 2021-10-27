@@ -3,11 +3,9 @@
 #include "DirectXCommon.h"
 #include <DirectXMath.h>
 #include "Object2D.h"
-#include "Object3D.h"
 #include "DebugText.h"
 #include "Audio.h"
 #include "KeyboardInput.h"
-#include "ModelObj.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "SpownPointModel.h"
@@ -41,6 +39,24 @@ private: //メンバ変数
 	GamesceneWallUp* wallDown = nullptr;
 	GamesceneWallLR* wallRight = nullptr;
 	GamesceneWallLR* wallLeft = nullptr;
+
+	//スポーンポイント
+	SpownPointModel* spown = nullptr;
+
+	//プレイヤー
+	Player* player = nullptr;
+
+	//エネミー
+	static const int enemyMaxNum = 100; //最大数
+	Enemy* enemy[enemyMaxNum]; //エネミー実体
+	float enemyRadius = 3.0f;
+
+	//スポーン用タイマー
+	int spownTimer = 50;
+	//発生したエネミーのカウント
+	int enemyCount = 0;
+	//生存フラグ
+	bool enemyAlive[enemyMaxNum] = {false};
 
 
 #pragma endregion
