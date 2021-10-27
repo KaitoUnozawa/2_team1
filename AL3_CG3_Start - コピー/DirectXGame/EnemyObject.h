@@ -9,7 +9,7 @@
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
-class Spawn
+class EnemyObject
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
@@ -88,7 +88,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static Spawn* Create();
+	static EnemyObject* Create();
 
 	/// <summary>
 	/// 視点座標の取得
@@ -236,13 +236,13 @@ private: // メンバ変数
 	// ローカルスケール
 	XMFLOAT3 scale = { 0.8f,0.8f,0.8f };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,90,0 };
+	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
 	XMFLOAT3 position = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト
-	Spawn* parent = nullptr;
+	EnemyObject* parent = nullptr;
 };
 
 

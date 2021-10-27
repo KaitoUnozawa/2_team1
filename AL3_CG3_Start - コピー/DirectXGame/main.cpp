@@ -2,7 +2,7 @@
 #include "DirectXCommon.h"
 #include "Audio.h"
 #include "GameScene.h"
-
+//#include "Enemy.h"
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 {
@@ -58,17 +58,17 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 		return 1;
 	}
 
-	if (!Bullet::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
+	if (!BulletObject::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
 		assert(0);
 		return 1;
 	}
 
-	if (!Bullet2::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
+	if (!BulletObject2::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
 		assert(0);
 		return 1;
 	}
 
-	if (!Enemy::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
+	if (!EnemyObject::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height)) {
 		assert(0);
 		return 1;
 	}

@@ -19,20 +19,11 @@ GameScene::~GameScene()
 	safe_delete(object3d3);
 	safe_delete(object3d4);
 	
-	safe_delete(p2object);
-	safe_delete(p2object2);
-	safe_delete(p2object3);
-	safe_delete(p2object4);
 
-	safe_delete(pobject);
-	safe_delete(pobject2);
-	safe_delete(pobject3);
-	safe_delete(pobject4);
 	for (int i = 0; i < enemy_max; i++) {
 		safe_delete(enemy[i]);
 	}
-	safe_delete(bullet);
-	safe_delete(bullet2);
+	safe_delete(player);
 	safe_delete(spawn);
 }
 
@@ -67,153 +58,71 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	// 3Dオブジェクト生成
 	object3d = Object3d::Create();
+	XMFLOAT3 position1 = object3d->GetPosition();
+	position1 = { 0.0f,-53.0f,0.0f };
+	object3d->SetPosition(position1);
+	XMFLOAT3 rotation1 = object3d->GetRotation();
+	rotation1 = { 0.0f,0.0f,90.0f };
+	object3d->SetRotation(rotation1);
+	XMFLOAT3 scale1 = object3d->GetScale();
+	scale1 = { 10.0f,14.0f,1.0f };
+	object3d->SetScale(scale1);
 	object3d->Update();
+
 	object3d2 = Object3d::Create();
+	XMFLOAT3 position2 = object3d2->GetPosition();
+	position2 = { 0.0f,53.0f,0.0f };
+	object3d2->SetPosition(position2);
+	XMFLOAT3 rotation2 = object3d2->GetRotation();
+	rotation2 = { 0.0f,0.0f,90.0f };
+	object3d2->SetRotation(rotation2);
+	XMFLOAT3 scale2 = object3d2->GetScale();
+	scale2 = { 10.0f,14.0f,1.0f };
+	object3d2->SetScale(scale2);
 	object3d2->Update();
+
 	object3d3 = Object3d2::Create();
+	XMFLOAT3 position3 = object3d3->GetPosition();
+	position3 = { -73.0f,0.0f,0.0f };
+	object3d3->SetPosition(position3);
+	XMFLOAT3 rotation3 = object3d3->GetRotation();
+	rotation3 = { 0.0f,0.0f,0.0f };
+	object3d3->SetRotation(rotation3);
+	XMFLOAT3 scale3 = object3d3->GetScale();
+	scale3 = { 30.0f,6.0f,1.0f };
+	object3d3->SetScale(scale3);
 	object3d3->Update();
+
 	object3d4 = Object3d2::Create();
+	XMFLOAT3 position4 = object3d4->GetPosition();
+	position4 = { 73.0f,0.0f,0.0f };
+	object3d4->SetPosition(position4);
+	XMFLOAT3 rotation4 = object3d4->GetRotation();
+	rotation4 = { 0.0f,0.0f,0.0f };
+	object3d4->SetRotation(rotation4);
+	XMFLOAT3 scale4 = object3d4->GetScale();
+	scale4 = { 30.0f,6.0f,1.0f };
+	object3d4->SetScale(scale4);
 	object3d4->Update();
 
-	pobject = PlayerObject::Create();
-	pobject->Update();
-	pobject2 = PlayerObject::Create();
-	pobject2->Update();
-	pobject3 = PlayerObject::Create();
-	pobject3->Update();
-	pobject4 = PlayerObject::Create();
-	pobject4->Update();
-
-	p2object = PlayerObject2::Create();
-	p2object->Update();
-	p2object2 = PlayerObject2::Create();
-	p2object2->Update();
-	p2object3 = PlayerObject2::Create();
-	p2object3->Update();
-	p2object4 = PlayerObject2::Create();
-	p2object4->Update();
-
-	bullet = Bullet::Create();
-	bullet->Update();
-
-	bullet2 = Bullet2::Create();
-	bullet2->Update();
+	player = new Player();
+	player->Initialize(dxCommon, input, audio);
 
 	for (int i = 0; i < enemy_max; i++) {
-		enemy[i] = Enemy::Create();
+		enemy[i] = new Enemy();
+		enemy[i]->Initialize(dxCommon,input, audio);
+	
+	}
+	for (int i = 0; i < enemy_max; i++) {
+		XMFLOAT3 Eposition[enemy_max];
+		Eposition[i] = { 0.0f,0.0f,0.0f };
+		Eposition[i] = enemy[i]->GetPosition();
+		enemy[i]->SetPosition(Eposition[i]);
+
 		enemy[i]->Update();
 	}
-	//enemyAliveの初期化
-	for (int i = 0; i < enemy_max; i++) {
-		enemyAlive[i] = 0;
-	}
-
-
 	spawn = Spawn::Create();
 	spawn->Update();
-
-	//壁のポジションとスケール
-	XMFLOAT3 position1 = object3d->GetPosition();
-	XMFLOAT3 position2 = object3d2->GetPosition();
-	XMFLOAT3 position3 = object3d3->GetPosition();
-	XMFLOAT3 position4 = object3d4->GetPosition();
-	position1 = { 0.0f,-53.0f,0.0f };
-	position2 = { 0.0f,53.0f,0.0f };
-	position3 = { -73.0f,0.0f,0.0f };
-	position4 = { 73.0f,0.0f,0.0f };
-	object3d->SetPosition(position1);
-	object3d2->SetPosition(position2);
-	object3d3->SetPosition(position3);
-	object3d4->SetPosition(position4);
-
-	XMFLOAT3 rotation1 = object3d->GetRotation();
-	XMFLOAT3 rotation2 = object3d2->GetRotation();
-	XMFLOAT3 rotation3 = object3d3->GetRotation();
-	XMFLOAT3 rotation4 = object3d4->GetRotation();
-	rotation1 = { 0.0f,0.0f,90.0f };
-	rotation2 = { 0.0f,0.0f,90.0f };
-	rotation3 = { 0.0f,0.0f,0.0f };
-	rotation4 = { 0.0f,0.0f,0.0f };
-	object3d->SetRotation(rotation1);
-	object3d2->SetRotation(rotation2);
-	object3d3->SetRotation(rotation3);
-	object3d4->SetRotation(rotation4);
-
-	XMFLOAT3 scale1 = object3d->GetScale();
-	XMFLOAT3 scale2 = object3d2->GetScale();
-	XMFLOAT3 scale3 = object3d3->GetScale();
-	XMFLOAT3 scale4 = object3d4->GetScale();
-	scale1 = { 10.0f,14.0f,1.0f };
-	scale2 = { 10.0f,14.0f,1.0f };
-	scale3 = { 30.0f,6.0f,1.0f };
-	scale4 = { 30.0f,6.0f,1.0f };
-	object3d->SetScale(scale1);
-	object3d2->SetScale(scale2);
-	object3d3->SetScale(scale3);
-	object3d4->SetScale(scale4);
-
-
-	//プレイヤーのポジションとスケール
-	XMFLOAT3 position21 = pobject->GetPosition();
-	XMFLOAT3 position22 = pobject2->GetPosition();
-	XMFLOAT3 position23 = pobject3->GetPosition();
-	XMFLOAT3 position24 = pobject4->GetPosition();
-	position21 = { 0.0f,-42.0f,0.0f };
-	position22 = { 0.0f,42.0f,0.0f };
-	position23 = { -42.0f,0.0f,0.0f };
-	position24 = { 42.0f,0.0f,0.0f };
-	pobject->SetPosition(position21);
-	pobject2->SetPosition(position22);
-	pobject3->SetPosition(position23);
-	pobject4->SetPosition(position24);
-
-	XMFLOAT3 scale21 = pobject->GetScale();
-	XMFLOAT3 scale22 = pobject2->GetScale();
-	XMFLOAT3 scale23 = pobject3->GetScale();
-	XMFLOAT3 scale24 = pobject4->GetScale();
-	scale21 = { 2.0f,2.0f,2.0f };
-	scale22 = { 2.0f,2.0f,2.0f };
-	scale23 = { 2.0f,2.0f,2.0f };
-	scale24 = { 2.0f,2.0f,2.0f };
-	pobject->SetScale(scale21);
-	pobject2->SetScale(scale22);
-	pobject3->SetScale(scale23);
-	pobject4->SetScale(scale24);
-
-	//プレイヤーアクティブ時のポジションとスケール
-	XMFLOAT3 p2position1 = p2object->GetPosition();
-	XMFLOAT3 p2position2 = pobject2->GetPosition();
-	XMFLOAT3 p2position3 = pobject3->GetPosition();
-	XMFLOAT3 p2position4 = pobject4->GetPosition();
-	p2position1 = { 0.0f,-42.0f,0.0f };
-	p2position2 = { 0.0f,42.0f,0.0f };
-	p2position3 = { -42.0f,0.0f,0.0f };
-	p2position4 = { 42.0f,0.0f,0.0f };
-	p2object->SetPosition(p2position1);
-	p2object2->SetPosition(p2position2);
-	p2object3->SetPosition(p2position3);
-	p2object4->SetPosition(p2position4);
-
-	XMFLOAT3 p2scale1 = p2object->GetScale();
-	XMFLOAT3 p2scale2 = pobject2->GetScale();
-	XMFLOAT3 p2scale3 = pobject3->GetScale();
-	XMFLOAT3 p2scale4 = pobject4->GetScale();
-	p2scale1 = { 2.0f,2.0f,2.0f };
-	p2scale2 = { 2.0f,2.0f,2.0f };
-	p2scale3 = { 2.0f,2.0f,2.0f };
-	p2scale4 = { 2.0f,2.0f,2.0f };
-	p2object->SetScale(p2scale1);
-	p2object2->SetScale(p2scale2);
-	p2object3->SetScale(p2scale3);
-	p2object4->SetScale(p2scale4);
-	//弾のスケール
-	XMFLOAT3 Bscale = bullet->GetScale();
-	Bscale = { 1.0f,1.0f,1.0f };
-	bullet->SetScale(Bscale);
-
-	XMFLOAT3 Bscale2 = bullet2->GetScale();
-	Bscale2 = { 1.0f,1.0f,1.0f };
-	bullet2->SetScale(Bscale2);
 
 	srand(time(NULL));
 }
@@ -221,134 +130,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio * audio)
 void GameScene::Update()
 {
 
-	
-	XMFLOAT3 Mposition1 = pobject->GetPosition();
-	XMFLOAT3 Mposition2 = pobject2->GetPosition();
-	XMFLOAT3 Mposition3 = pobject3->GetPosition();
-	XMFLOAT3 Mposition4 = pobject4->GetPosition();
+	player->Update();
 
-	XMFLOAT3 M2position1 = p2object->GetPosition();
-	XMFLOAT3 M2position2 = p2object2->GetPosition();
-	XMFLOAT3 M2position3 = p2object3->GetPosition();
-	XMFLOAT3 M2position4 = p2object4->GetPosition();
-
-	XMFLOAT3 BMposition = bullet->GetPosition();
-	XMFLOAT3 BM2position = bullet2->GetPosition();
-	// オブジェクト移動
-	Mposition1.x += playerSpeed1;
-	Mposition2.x += playerSpeed2;
-	Mposition3.y += playerSpeed3;
-	Mposition4.y += playerSpeed4;
-	
-	M2position1.x += playerSpeed1;
-	M2position2.x += playerSpeed2;
-	M2position3.y += playerSpeed3;
-	M2position4.y += playerSpeed4;
-
-
-	
-	if (Mposition1.x >= -43 && Mposition1.x <= -43) { playerSpeed1 = 0.5f; }
-	if (Mposition2.x >= 43 && Mposition2.x <= 43) { playerSpeed2 = -0.5f; }
-	if (Mposition3.y >= 43 && Mposition3.y <= 43) { playerSpeed3 = -0.5f; }
-	if (Mposition4.y >= -43 && Mposition4.y <= -43) { playerSpeed4 = 0.5f; }
-
-	if (M2position1.x >= -43 && M2position1.x <= -43) { playerSpeed1 = 0.5f; }
-	if (M2position2.x >= 43 && M2position2.x <= 43) { playerSpeed2 = -0.5f; }
-	if (M2position3.y >= 43 && M2position3.y <= 43) { playerSpeed3 = -0.5f; }
-	if (M2position4.y >= -43 && M2position4.y <= -43) { playerSpeed4 = 0.5f; }
-
-
-	if (Mposition1.x >= 43 && Mposition1.x <= 43) { playerSpeed1 = -0.5f; }
-	if (Mposition2.x >= -43 && Mposition2.x <= -43) { playerSpeed2 = 0.5f; }
-	if (Mposition3.y >= -43 && Mposition3.y <= -43) { playerSpeed3 = 0.5f; }
-	if (Mposition4.y >= 43 && Mposition4.y <= 43) { playerSpeed4 = -0.5f; }
-
-	if (M2position1.x >= 43 && M2position1.x <= 43) { playerSpeed1 = -0.5f; }
-	if (M2position2.x >= -43 && M2position2.x <= -43) { playerSpeed2 = 0.5f; }
-	if (M2position3.y >= -43 && M2position3.y <= -43) { playerSpeed3 = 0.5f; }
-	if (M2position4.y >= 43 && M2position4.y <= 43) { playerSpeed4 = -0.5f; }
-
-
-
-	if (mflag == 0) {
-		if (input->TriggerKey(DIK_SPACE)) {
-		
-			bflag++;
-			if (bflag == 5) {
-				bflag = 1;
-			}
-			if (bflag == 1) {
-				mflag = 1;
-				playerActive2 = 1;
-				playerActive1 = 0;
-				BM2position.x = Mposition1.x;
-				BM2position.y = Mposition1.y;
-				BM2position.z = Mposition1.z;
-
-			}
-			if (bflag == 3) {
-				mflag = 1;
-				playerActive4 = 1;
-				playerActive3 = 0;
-				BM2position.x = Mposition2.x;
-				BM2position.y = Mposition2.y;
-				BM2position.z = Mposition2.z;
-
-			}
-			if (bflag == 4) {	
-				mflag = 1;
-				playerActive1 = 1;
-				playerActive4 = 0;
-				BMposition.x = Mposition3.x;
-				BMposition.y = Mposition3.y;
-				BMposition.z = Mposition3.z;
-
-			}
-			if (bflag == 2) {
-				mflag = 1;
-				playerActive3 = 1;
-				playerActive2 = 0;
-				BMposition.x = Mposition4.x;
-				BMposition.y = Mposition4.y;
-				BMposition.z = Mposition4.z;
-
-			}
-		}
-	}
-	if (mflag == 1)
-	{
-		if (bflag == 1) {
-			BM2position.y += 2;
-			if (BM2position.y >= 100) {
-			
-				mflag = 0;
-			}
-			
-		}
-		if (bflag == 3) {
-			BM2position.y -= 2;
-			if (BM2position.y <= -100) {
-			
-				mflag = 0;
-			}
-		}
-		if (bflag == 4) {
-			BMposition.x += 2;
-			if (BMposition.x >= 110) {
-			
-				mflag = 0;
-			}
-		}
-		if (bflag == 2) {
-			BMposition.x -= 2;
-			if (BMposition.x <= -110) {
-		
-				mflag = 0;
-			}
-		}
-	}
-
-	
+#pragma region スポーン
 
 	if (spawntimer > 0) {
 		spawntimer--;
@@ -356,117 +140,28 @@ void GameScene::Update()
 	if (spawntimer == 0) {
 		if (enemyCount < enemy_max) {
 			enemyCount++;
-			enemyAlive[enemyCount] = 1;
-		}
 
-		spawntimer = 50;
+		}
+		spawntimer = 150;
 	}
-	
-	
-	if (enemySpeed1 >= 0&& enemySpeed2 >= 0) {
-		if (angle[enemyCount] == 0) {
-			angle[enemyCount] = rand() % 360 + 1;
-		}
-	}
+	enemyAlive[enemyCount] = 1;
+	enemy[enemyCount]->Update();
 
-	for (int i = 0; i < enemy_max; i++) {
-
-		XMFLOAT3 Eposition[enemy_max];
-		Eposition[i] = enemy[i]->GetPosition();
-
-		
-			Eposition[enemyCount].x += cosf(angle[i]) + enemySpeed1[i];
-			Eposition[enemyCount].y += sinf(angle[i]) + enemySpeed2[i];
-		
-
-			if (Eposition[enemyCount].x >= -43 && Eposition[enemyCount].x <= -43) { enemySpeed1[i] = 0.05f; }
-			if (Eposition[enemyCount].x >= 43 && Eposition[enemyCount].x <= 43) { enemySpeed1[i] = -0.05f; }
-			if (Eposition[enemyCount].y >= 43 && Eposition[enemyCount].y <= 43) { enemySpeed2[i] = -0.005f; }
-			if (Eposition[enemyCount].y >= -43 && Eposition[enemyCount].y <= -43) { enemySpeed2[i] = 0.005f; }
-
-			if (Eposition[enemyCount].x <= -43) { enemyAlive[i] = 0; }
-			if (Eposition[enemyCount].x >= 43) { enemyAlive[i] = 0; }
-			if (Eposition[enemyCount].y <= -43) { enemyAlive[i] = 0; }
-			if (Eposition[enemyCount].y >= 43) { enemyAlive[i] = 0; }
-		
-	//当たり判定
-		if (enemyAlive[i] == 1 && mflag == 1 && bflag == 1 || bflag == 3) {
-
-			float a = BM2position.x - Eposition[i].x;
-			float b = BM2position.y - Eposition[i].y;
-			float c = sqrt(a * a + b * b);
-
-			if (c <= radius1 + radius2) {
-				tflag = 1;
-			}
-			else {
-				tflag = 0;
-			}
-		}
-		if (tflag == 1) {
-			timer--;
-			if (timer == 50) {
-				enemySpeed1[i] = 0;
-				enemySpeed2[i] = 0;
-			}
-			if (timer == 0) {
-				timer = 50;
-			}
-		}
-		if (enemyAlive[i] == 1 && mflag == 1&& bflag == 2 || bflag == 4) {
-
-			float d = BMposition.x - Eposition[i].x;
-			float e = BMposition.y - Eposition[i].y;
-			float f = sqrt(d * d + e * e);
-
-			if (f <= radius1 + radius2) {
-			
-					score += 1;
-				
-					enemyAlive[i] = 0;
-			}
-		}
-		enemy[i]->SetPosition(Eposition[i]);
-	}
-	
+#pragma endregion
 
 
-		bullet->SetPosition(BMposition);
-		bullet2->SetPosition(BM2position);
-
-
-		pobject->SetPosition(Mposition1);
-		pobject2->SetPosition(Mposition2);
-		pobject3->SetPosition(Mposition3);
-		pobject4->SetPosition(Mposition4);
-
-		p2object->SetPosition(M2position1);
-		p2object2->SetPosition(M2position2);
-		p2object3->SetPosition(M2position3);
-		p2object4->SetPosition(M2position4);
 
 		object3d->Update();
 		object3d2->Update();
 		object3d3->Update();
 		object3d4->Update();
 
-		pobject->Update();
-		pobject2->Update();
-		pobject3->Update();
-		pobject4->Update();
 
-		p2object->Update();
-		p2object2->Update();
-		p2object3->Update();
-		p2object4->Update();
 
-		bullet->Update();
-		bullet2->Update();
 
-		for (int i = 0; i < enemy_max; i++) {
-			enemy[i]->Update();
-		}
 		spawn->Update();
+
+	
 }
 
 void GameScene::Draw()
@@ -481,9 +176,7 @@ void GameScene::Draw()
 	//spriteBG->Draw();
 	//sprite1->Draw();
 	//sprite2->Draw();
-	/// <summary>
-	/// ここに背景スプライトの描画処理を追加できる
-	/// </summary>
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -492,72 +185,37 @@ void GameScene::Draw()
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
-	// 3Dオブジェクト描画前処理
+#pragma region	3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	Object3d2::PreDraw(cmdList);
-	PlayerObject::PreDraw(cmdList);
-	PlayerObject2::PreDraw(cmdList);
-	Bullet::PreDraw(cmdList);
-	Bullet2::PreDraw(cmdList);
-	Enemy::PreDraw(cmdList);
+
+
+	
 	Spawn::PreDraw(cmdList);
-	// 3Dオブクジェクトの描画
+#pragma endregion	
+#pragma region 3Dオブクジェクトの描画
+	for (int i = 0; i < enemy_max; i++) {
+		if (enemyAlive[i]) {
+			enemy[i]->Draw();
+		}
+	}
+	player->Draw();
 	object3d->Draw();
 	object3d2->Draw();
 	object3d3->Draw();
 	object3d4->Draw();
 	spawn->Draw();
-	if (playerActive1 == 0) {
-		pobject->Draw();
-	}
-	if (playerActive2 == 0) {
-		pobject4->Draw();
-	}
-	if (playerActive3 == 0) {
-		pobject2->Draw();
-	}
-	if (playerActive4 == 0) {
-		pobject3->Draw();
-	}
-	if (playerActive1 == 1) {
-		p2object->Draw();
-	}
-	if (playerActive2 == 1) {
-		p2object4->Draw();
-	}
-	if (playerActive3 == 1) {
-		p2object2->Draw();
-	}
-	if (playerActive4 == 1) {
-		p2object3->Draw();
-	}
-	if (mflag == 1&& bflag == 2 || bflag == 4) {
-		bullet->Draw();
-	}
-	if (mflag == 1&& bflag == 1 || bflag == 3) {
-		bullet2->Draw();
-	}
-	for (int i = 0; i < enemy_max; i++) {
-		if (enemyAlive[i] == 1) {
 
-			enemy[i]->Draw();
-		}
-	}
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
 
-	// 3Dオブジェクト描画後処理
+#pragma endregion	
+#pragma region	3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 	Object3d2::PostDraw();
-	PlayerObject::PostDraw();
-	PlayerObject2::PostDraw();
-	Bullet::PostDraw();
-	Bullet2::PostDraw();
-	Enemy::PostDraw();
+
+
 	Spawn::PostDraw();
 #pragma endregion
-
+#pragma endregion	
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
