@@ -45,6 +45,7 @@ private: //メンバ変数
 
 	//プレイヤー
 	Player* player = nullptr;
+	PlayerBullet* bullet = nullptr;
 	float bulletRadius = 1.0f;
 
 	//エネミー

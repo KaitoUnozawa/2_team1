@@ -80,6 +80,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	//プレイヤー
 	player = new Player();
 	player->Initialize(dxCommon, input, audio);
+	bullet = new PlayerBullet();
+	bullet->Initialize(dxCommon);
 
 	//エネミー
 	
@@ -98,15 +100,16 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 void GameScene::Update()
 {
-	//キーボード入力更新
-	input->Update();
 
 	//Spaceで弾発射
-	if (player->bulletMoveFlag == 0 && input->PressKeyTrigger(DIK_SPACE))
+	if (input->PressKeyTrigger(DIK_SPACE) && !bullet->GetIsAlive())
 	{
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0]);
-		//player->Update();
+		bullet->ShotInit(player->GetActiveNumber(),player->GetActivePos());
+		player->ChangeActivePlayer();
+		
 	}
+
 #pragma region 弾とエネミーの当たり判定
 
 	//for (int i = 0; i < enemyMaxNum; i++)
@@ -149,6 +152,8 @@ void GameScene::Update()
 		wallRight->Update();
 		wallLeft->Update();
 	}
+	//弾
+	bullet->Update();
 	//プレイヤー
 	player->Update();
 	//スポーンポイント
@@ -190,6 +195,7 @@ void GameScene::Draw()
 
 	//プレイヤー
 	player->Draw();
+	bullet->Draw();
 	////エネミー
 	//for (int i = 0; i < enemyMaxNum; i++) {
 	//	if (enemyAlive[i])

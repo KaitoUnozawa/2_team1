@@ -28,9 +28,9 @@ public:
 	void Draw();
 	const XMFLOAT3& GetPosition() { return position; }
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
-	void SetMoveVector(XMFLOAT3 moveVector) { this->moveVector = moveVector; }
+	void ShotInit(int posNumber, XMFLOAT3 startPos);
+	bool GetIsAlive() { return isAlive; }
 	
-
 
 private:
 	DirectXCommon* dxCommon = nullptr;

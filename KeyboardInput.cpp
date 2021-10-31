@@ -72,7 +72,7 @@ void KeyboardInput::Update()
 		}
 	}
 
-}
+ }
 
 
 //î•ñ‚Ì—˜—p

@@ -35,6 +35,14 @@ void PlayerBullet::Update()
 		position.z = position.z + moveVector.z;
 		bulletObj->SetPosition(position);
 	}
+
+	if (position.x >= 50 || position.x <= -50 || 
+		position.y >= 50 || position.y <= -50) 
+	{
+		isAlive = false;
+		position = { -500,-500,-500 };
+	}
+
 	bulletObj->Update();
 }
 
@@ -44,7 +52,32 @@ void PlayerBullet::Draw()
 	// 深度バッファクリア
 	dxCommon->ClearDepthBuffer();
 	BulletModel::PreDraw(cmdList);
-	bulletObj->Draw();
+	if (isAlive) {
+		bulletObj->Draw();
+
+	}
 	BulletModel::PostDraw();
 
+}
+
+void PlayerBullet::ShotInit(int posNumber,XMFLOAT3 startPos)
+{
+	position = startPos;
+	
+	switch (posNumber)
+	{
+		case 0:
+			moveVector = { 0,2,0 };
+			break;
+		case 1:
+			moveVector = { 2,0,0 };
+			break;
+		case 2:
+			moveVector = { 0,-2,0 };
+			break;
+		case 3:
+			moveVector = { -2,0,0 };
+			break;
+	}
+	isAlive = true;
 }
