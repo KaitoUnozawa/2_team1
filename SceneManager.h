@@ -7,9 +7,9 @@ class SceneManager
 {
 #pragma region •Ï”
 private: //ƒƒ“ƒo•Ï”
-	//DirectXCommon* dxCommon = nullptr;
-	//Audio* audio = nullptr;
+	DirectXCommon* dxCommon = nullptr;
 	KeyboardInput* input = nullptr;
+	Audio* audio = nullptr;
 	GameScene* game = nullptr;
 	Title* title = nullptr;
 	Tutorial* tutorial = nullptr;

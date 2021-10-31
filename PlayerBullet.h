@@ -30,6 +30,7 @@ public:
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
 	void ShotInit(int posNumber, XMFLOAT3 startPos);
 	bool GetIsAlive() { return isAlive; }
+	float GetRadius() { return radius; }
 	
 
 private:
@@ -37,6 +38,7 @@ private:
 	BulletModel* bulletObj = nullptr;
 	XMFLOAT3 position;
 	XMFLOAT3 moveVector;
+	float radius = 2.0f;
 	bool isAlive;
 
 };

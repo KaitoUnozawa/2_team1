@@ -11,6 +11,7 @@
 #include "SpownPointModel.h"
 #include "GamesceneWallUp.h"
 #include "GamesceneWallLR.h"
+#include <vector>
 
 
 using namespace Microsoft::WRL;
@@ -46,20 +47,15 @@ private: //メンバ変数
 	//プレイヤー
 	Player* player = nullptr;
 	PlayerBullet* bullet = nullptr;
-	float bulletRadius = 1.0f;
 
 	//エネミー
-	static const int enemyMaxNum = 10; //最大数
-	Enemy* enemy[enemyMaxNum]; //エネミー実体
-	float enemyRadius = 4.0f;
+	std::vector<Enemy *> enemys; //エネミー実体
 
 	//スポーン用タイマー
 	int spownTimer = 50;
-	//発生したエネミーのカウント
-	int enemyCount = 0;
-	//生存フラグ
-	bool enemyAlive[enemyMaxNum] = { false };
-
+	
+	//スコア
+	int score = 0;
 
 #pragma endregion
 
@@ -78,5 +74,7 @@ public: //メンバ関数
 	//描画
 	void Draw();
 #pragma endregion
+private:
+	int GameCounter;
 };
 

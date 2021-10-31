@@ -7,11 +7,11 @@ using namespace DirectX;
 //球同士の当たり判定
 bool GameScene::CollisionBalltoBall(XMFLOAT3 aPos, float aRadius, XMFLOAT3 bPos, float bRadius)
 {
-	float x = (aPos.x - bPos.x);
-	float y = (aPos.y - bPos.y);
-	float z = (aPos.z - bPos.z);
+	float x = (aPos.x / 2 - bPos.x);
+	float y = (aPos.y / 2 - bPos.y);
+	float z = (aPos.z / 2 - bPos.z);
 	float r = (aRadius + bRadius);
-	return ((x * x + y * y + z * z) <= r * r);
+	return ((x * x) + (y * y) + (z * z)) <= (r * r);
 }
 
 
@@ -28,7 +28,6 @@ GameScene::~GameScene()
 	safe_delete(spown);
 
 	safe_delete(player);
-	safe_delete(*enemy);
 }
 
 void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
@@ -41,6 +40,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	this->dxCommon = dxCommon;
 	this->input = input;
 	this->audio = audio;
+
+	GameCounter = 0;
 
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Object2D::LoadTexture(debugTextTexNum, L"Resources/DebugText.png")) {
@@ -84,7 +85,15 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	bullet->Initialize(dxCommon);
 
 	//エネミー
-	
+	enemys.push_back(new Enemy());
+	enemys.push_back(new Enemy());
+	enemys.push_back(new Enemy());
+	enemys.push_back(new Enemy());
+	enemys.push_back(new Enemy());
+	enemys.push_back(new Enemy());
+	for (int i = 0; i < enemys.size(); i++) {
+		enemys[i]->Init(dxCommon);
+	}
 
 	//スポーンポイント
 	spown = SpownPointModel::Create();
@@ -95,11 +104,18 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	soundData[1] = audio->SoundLoadWave("Resources/Destroy.wav");
 	soundData[2] = audio->SoundLoadWave("Resources/musicloop.wav");
 	//再生
-	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[2], Audio::loop);
+	audio->SoundPlayWave(audio->xAudio2.Get(), soundData[2], Audio::loop);
 }
 
 void GameScene::Update()
 {
+	GameCounter++;
+
+	//120fごとに敵を追加
+	if (GameCounter % 120 == 0) {
+		enemys.push_back(new Enemy());
+		enemys[enemys.size() - 1]->Init(dxCommon);
+	}
 
 	//Spaceで弾発射
 	if (input->PressKeyTrigger(DIK_SPACE) && !bullet->GetIsAlive())
@@ -107,22 +123,33 @@ void GameScene::Update()
 		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0]);
 		bullet->ShotInit(player->GetActiveNumber(),player->GetActivePos());
 		player->ChangeActivePlayer();
-		
 	}
+	//敵更新
+	for (int i = 0; i < enemys.size(); i++) {
+		enemys[i]->Update();
+	}
+	//敵の消去処理
+	for (int i = enemys.size() - 1; i >= 0; i--) {
+		if (!enemys[i]->enemyAlive) {
+			delete enemys[i];
+			enemys.erase(enemys.begin() + i);
+		}
+	}
+
 
 #pragma region 弾とエネミーの当たり判定
 
-	//for (int i = 0; i < enemyMaxNum; i++)
-	//{
-	//	/*float x = (player->bullet->GetPosition().x - enemy[i]->position.x);
-	//	float y = (player->bullet->GetPosition().y - enemy[i]->position.y);
-	//	float z = (enemy[i]->position.z - player->bullet->GetPosition().z);
-	//	float r = (bulletRadius + enemyRadius);
-	//	if ((x*x + y*y + z*z) <= r*r) {
-	//		enemy[i]->enemyAlive = false;
-	//		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
-	//	}*/
-	//}
+	for (int i = 0; i < enemys.size(); i++) {
+		if (CollisionBalltoBall(
+			bullet->GetPosition(), bullet->GetRadius(),
+			enemys[i]->GetPosition(), enemys[i]->GetRadius())) {
+			enemys[i]->enemyAlive = false;
+			score = score + 100;
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
+		}
+	}
+
+
 
 #pragma endregion
 
@@ -158,6 +185,9 @@ void GameScene::Update()
 	player->Update();
 	//スポーンポイント
 	spown->Update();
+
+	//スコア表示
+	//debugText.PrintDebugText("%s", score, 0.0f, -20.0f);
 	
 }
 
@@ -205,6 +235,11 @@ void GameScene::Draw()
 	//}
 
 #pragma endregion
+
+
+	for (int i = 0; i < enemys.size(); i++) {
+		enemys[i]->Draw();
+	}
 
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理

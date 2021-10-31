@@ -30,35 +30,21 @@ public:
 	void Draw();
 	const XMFLOAT3& GetPosition() { return position; }
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
-
+	float GetRadius() { return radius; }
 
 private:
 	DirectXCommon* dxCommon = nullptr;
-	//KeyboardInput* input = nullptr;
-	//Audio* audio = nullptr;
-
 	//エネミーモデル
 	EnemyModel* enemy = nullptr;
 
-	//プレイヤーの弾
-	PlayerBullet* bullet = nullptr;
-
 	//移動用？のスピード
-	float enemySpeed1 = 0.05f;
 	float enemyMoveSpeed = -0.05f;
 
-	//生成したエネミーの総数？
-	int enemyCount = 0;
 
 	//どの方向に敵を移動させるか
 	float angle = 0;
+	XMFLOAT3 moveVector;
 
-	//多分敵と弾の半径
-	const float radius1 = 2.0f;
-	const float radius2 = 2.0f;
-	
-	// スポーン用タイマー
-	int spownTimer = 25;
 
 public:
 	//生存フラグ
@@ -66,4 +52,5 @@ public:
 
 	//位置
 	XMFLOAT3 position;
+	float radius = 4.0f;
 };
