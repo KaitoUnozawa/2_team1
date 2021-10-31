@@ -66,6 +66,10 @@ public: //構造体
 
 public: //メンバ変数
 	ComPtr<IXAudio2> xAudio2;
+	enum IsLoop {
+		loop,
+		not
+	};
 
 private: //メンバ変数
 	IXAudio2MasteringVoice* masterVoice;
@@ -79,10 +83,8 @@ public: //メンバ関数
 	void Init();
 	//音声データ読み込み
 	SoundData SoundLoadWave(const char* filename);
-	//音声再生
-	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
-	//ループ再生したい
-	void SoundLoopPlayWave(IXAudio2* xAudio2, const SoundData& soundData);
+	//音声再生(ループ対応)
+	void SoundPlayWave(IXAudio2* xAudio2, const SoundData& soundData, IsLoop isLoop = not);
 	//再生停止
 	void SoundStop(IXAudio2* xAudio2, const SoundData& soundData);
 	//音声データ解放

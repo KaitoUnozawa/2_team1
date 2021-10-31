@@ -65,6 +65,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	wallLeft->SetScale({ 15.0f,3.5f,1.0f });
 	wallLeft->Update();
 #pragma endregion
+
 	//プレイヤー
 	player = new Player();
 	player->Initialize(dxCommon, input, audio);
@@ -73,7 +74,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	for (int i = 0; i < enemyMaxNum; i++)
 	{
 		enemy[i] = new Enemy();
-		enemy[i]->Init(dxCommon, input, audio);
+		enemy[i]->Init(dxCommon);
 	}
 	for (int i = 0; i < enemyMaxNum; i++)
 	{
@@ -94,13 +95,31 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	soundData[1] = audio->SoundLoadWave("Resources/Destroy.wav");
 	soundData[2] = audio->SoundLoadWave("Resources/musicloop.wav");
 	//再生
-	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[2]);
+	//audio->SoundPlayWave(audio->xAudio2.Get(), soundData[2], Audio::loop);
 }
 
 void GameScene::Update()
 {
+
+	//Spaceで弾発射
+	if (player->bulletMoveFlag == 0 && input->PressKeyTrigger(DIK_SPACE))
+	{
+		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0]);
+		//player->Update();
+	}
 #pragma region 弾とエネミーの当たり判定
 
+	for (int i = 0; i < enemyMaxNum; i++)
+	{
+		float x = (player->bullet->GetPosition().x - enemy[i]->position.x);
+		float y = (player->bullet->GetPosition().y - enemy[i]->position.y);
+		float z = (enemy[i]->position.z - player->bullet->GetPosition().z);
+		float r = (bulletRadius + enemyRadius);
+		if ((x*x + y*y + z*z) <= r*r) {
+			enemy[i]->enemyAlive = false;
+			audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
+		}
+	}
 
 #pragma endregion
 
@@ -122,12 +141,7 @@ void GameScene::Update()
 	}
 #pragma endregion
 
-	//Spaceで弾発射
-	if (input->PressKeyTrigger(DIK_SPACE))
-	{
-		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[0]);
-		player->Update();
-	}
+	
 
 	//壁
 	{

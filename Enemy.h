@@ -1,10 +1,10 @@
 #pragma once
 #include "SafeDelete.h"
 #include "DirectXCommon.h"
-#include "KeyboardInput.h"
-#include "Audio.h"
-#include"EnemyModel.h"
-#include"PlayerBullet.h"
+//#include "KeyboardInput.h"
+//#include "Audio.h"
+#include "EnemyModel.h"
+#include "PlayerBullet.h"
 #include <DirectXMath.h>
 
 class Enemy {
@@ -17,7 +17,7 @@ class Enemy {
 public:
 	Enemy();
 	~Enemy();
-	void Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio);
+	void Init(DirectXCommon* dxCommon);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -30,20 +30,40 @@ public:
 	void Draw();
 	const XMFLOAT3& GetPosition() { return position; }
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
+
+
 private:
 	DirectXCommon* dxCommon = nullptr;
-	KeyboardInput* input = nullptr;
-	Audio* audio = nullptr;
+	//KeyboardInput* input = nullptr;
+	//Audio* audio = nullptr;
+
+	//エネミーモデル
 	EnemyModel* enemy = nullptr;
+
+	//プレイヤーの弾
 	PlayerBullet* bullet = nullptr;
-	bool enemyAlive = false;
-	//float enemySpeed1 = 0.05f;
+
+	//移動用？のスピード
+	float enemySpeed1 = 0.05f;
 	float enemyMoveSpeed = -0.05f;
+
+	//生成したエネミーの総数？
 	int enemyCount = 0;
+
+	//どの方向に敵を移動させるか
 	float angle = 0;
+
+	//多分敵と弾の半径
 	const float radius1 = 2.0f;
 	const float radius2 = 2.0f;
-	XMFLOAT3 position;
+	
 	// スポーン用タイマー
-	int spownTimer = 50;
+	int spownTimer = 25;
+
+public:
+	//生存フラグ
+	bool enemyAlive = false;
+
+	//位置
+	XMFLOAT3 position;
 };

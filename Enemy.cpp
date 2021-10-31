@@ -10,23 +10,19 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	safe_delete(bullet);
+	//safe_delete(bullet);
 	safe_delete(enemy);
 
 
 }
 
-void Enemy::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio)
+void Enemy::Init(DirectXCommon* dxCommon)
 {
 	assert(dxCommon);
 	this->dxCommon = dxCommon;
 	enemy = EnemyModel::Create();
-	XMFLOAT3 Eposition = enemy->GetPosition();
-	Eposition = { 0.0f,0.0f,0.0f };
-	enemy->SetPosition(Eposition);
+	enemy->SetPosition({ 0,0,0 });
 	enemy->Update();
-	bullet = new PlayerBullet();
-	bullet->Initialize(dxCommon);
 	srand(time(NULL));
 }
 
@@ -34,22 +30,20 @@ void Enemy::Update()
 {
 
 #pragma region エネミー移動
-	position = enemy->GetPosition();
 
-	enemyAlive = 1;
+	position = enemy->GetPosition();
+	enemyAlive = true;
 	if (angle == 0) {
 		angle = rand() % 360 + 1;
 	}
 
 	position.x += (cosf(angle)) * enemyMoveSpeed;
 	position.y += (sinf(angle)) * enemyMoveSpeed;
-
-	enemy->SetPosition(position);
+	
 	enemy->Update();
 #pragma endregion
 
-	XMFLOAT3 BMposition = bullet->GetPosition();
-
+	//XMFLOAT3 BMposition = bullet->GetPosition();
 	////上下当たり判定
 	//if (enemyAlive== 1 bflag == 1 || bflag == 3) {
 	//	float a = BM2position.x - Eposition.x;
@@ -59,19 +53,23 @@ void Enemy::Update()
 	//		tflag = 1;
 	//	}
 	//}
-
 	//左右当たり判定
-
-	if (enemyAlive == 1) {
+	/*if (enemyAlive == 1) {
 		float d = BMposition.x - position.x;
 		float e = BMposition.y - position.y;
 		float f = sqrt(d * d + e * e);
 		if (f <= radius1 + radius2) {
 			enemyAlive = 0;
 		}
+	}*/
+	//bullet->SetPosition(BMposition);
+	if (enemy->GetPosition().x >= 50 || enemy->GetPosition().x <= -50 ||
+		enemy->GetPosition().y >= 50 || enemy->GetPosition().y <= -50)
+	{
+		enemyAlive = false;
 	}
-	bullet->SetPosition(BMposition);
 
+	enemy->SetPosition(position);
 }
 
 void Enemy::Draw()
@@ -79,11 +77,11 @@ void Enemy::Draw()
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	// 深度バッファクリア
 	dxCommon->ClearDepthBuffer();
-	EnemyModel::PreDraw(cmdList);
+	
 
-	if (enemyAlive == 1) {
+	if (enemyAlive == true) {
+		EnemyModel::PreDraw(cmdList);
 		enemy->Draw();
+		EnemyModel::PostDraw();
 	}
-
-	EnemyModel::PostDraw();
 }

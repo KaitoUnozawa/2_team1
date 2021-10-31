@@ -33,12 +33,17 @@ public:
 	bool PressSpace() { return true; }
 
 
+public:
+	PlayerBullet* bullet = nullptr;
+	//弾発射時に使用するフラグ
+	int bulletMoveFlag = 0;
+
 private:
 	DirectXCommon* dxCommon = nullptr;
 	KeyboardInput* input = nullptr;
 	Audio* audio = nullptr;
 
-	PlayerBullet* bullet = nullptr;
+	
 	//Bullet2* bullet2 = nullptr;
 
 	//プレイヤー
@@ -56,8 +61,7 @@ private:
 
 	//注目プレイヤー切り替え
 	int bulletSelectFlag = 0;
-	//弾発射時に使用するフラグ
-	int bulletMoveFlag = 0;
+	
 	//注目されてるよ
 	bool playerActive[4] = { 1,0,0,0 };
 

@@ -45,18 +45,19 @@ private: //メンバ変数
 
 	//プレイヤー
 	Player* player = nullptr;
+	float bulletRadius = 1.0f;
 
 	//エネミー
-	static const int enemyMaxNum = 100; //最大数
+	static const int enemyMaxNum = 10; //最大数
 	Enemy* enemy[enemyMaxNum]; //エネミー実体
-	float enemyRadius = 3.0f;
+	float enemyRadius = 4.0f;
 
 	//スポーン用タイマー
 	int spownTimer = 50;
 	//発生したエネミーのカウント
 	int enemyCount = 0;
 	//生存フラグ
-	bool enemyAlive[enemyMaxNum] = {false};
+	bool enemyAlive[enemyMaxNum] = { false };
 
 
 #pragma endregion
