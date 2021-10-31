@@ -4,6 +4,17 @@
 
 using namespace DirectX;
 
+//球同士の当たり判定
+bool GameScene::CollisionBalltoBall(XMFLOAT3 aPos, float aRadius, XMFLOAT3 bPos, float bRadius)
+{
+	float x = (aPos.x - bPos.x);
+	float y = (aPos.y - bPos.y);
+	float z = (aPos.z - bPos.z);
+	float r = (aRadius + bRadius);
+	return ((x * x + y * y + z * z) <= r * r);
+}
+
+
 GameScene::GameScene()
 {
 }
@@ -71,20 +82,7 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 	player->Initialize(dxCommon, input, audio);
 
 	//エネミー
-	for (int i = 0; i < enemyMaxNum; i++)
-	{
-		enemy[i] = new Enemy();
-		enemy[i]->Init(dxCommon);
-	}
-	for (int i = 0; i < enemyMaxNum; i++)
-	{
-		XMFLOAT3 enemyPosition[enemyMaxNum] = { { 0, 0, 0} };
-		enemyPosition[i] = enemy[i]->GetPosition();
-		enemy[i]->SetPosition(enemyPosition[i]);
-
-		enemy[i]->Update();
-	}
-	srand(time(NULL));
+	
 
 	//スポーンポイント
 	spown = SpownPointModel::Create();
@@ -100,6 +98,8 @@ void GameScene::Init(DirectXCommon* dxCommon, KeyboardInput* input, Audio* audio
 
 void GameScene::Update()
 {
+	//キーボード入力更新
+	input->Update();
 
 	//Spaceで弾発射
 	if (player->bulletMoveFlag == 0 && input->PressKeyTrigger(DIK_SPACE))
@@ -109,22 +109,22 @@ void GameScene::Update()
 	}
 #pragma region 弾とエネミーの当たり判定
 
-	for (int i = 0; i < enemyMaxNum; i++)
-	{
-		float x = (player->bullet->GetPosition().x - enemy[i]->position.x);
-		float y = (player->bullet->GetPosition().y - enemy[i]->position.y);
-		float z = (enemy[i]->position.z - player->bullet->GetPosition().z);
-		float r = (bulletRadius + enemyRadius);
-		if ((x*x + y*y + z*z) <= r*r) {
-			enemy[i]->enemyAlive = false;
-			audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
-		}
-	}
+	//for (int i = 0; i < enemyMaxNum; i++)
+	//{
+	//	/*float x = (player->bullet->GetPosition().x - enemy[i]->position.x);
+	//	float y = (player->bullet->GetPosition().y - enemy[i]->position.y);
+	//	float z = (enemy[i]->position.z - player->bullet->GetPosition().z);
+	//	float r = (bulletRadius + enemyRadius);
+	//	if ((x*x + y*y + z*z) <= r*r) {
+	//		enemy[i]->enemyAlive = false;
+	//		audio->SoundPlayWave(audio->xAudio2.Get(), soundData[1]);
+	//	}*/
+	//}
 
 #pragma endregion
 
 #pragma region エネミー発生
-	if (spownTimer > 0) {
+	/*if (spownTimer > 0) {
 		spownTimer--;
 	}
 	if (spownTimer <= 0) {
@@ -138,11 +138,10 @@ void GameScene::Update()
 	for (int i = 0; i < enemyMaxNum; i++) {
 		enemy[i]->Update();
 
-	}
+	}*/
 #pragma endregion
 
 	
-
 	//壁
 	{
 		wallUp->Update();
@@ -154,8 +153,7 @@ void GameScene::Update()
 	player->Update();
 	//スポーンポイント
 	spown->Update();
-	//キーボード入力更新
-	input->Update();
+	
 }
 
 void GameScene::Draw()
@@ -192,17 +190,14 @@ void GameScene::Draw()
 
 	//プレイヤー
 	player->Draw();
-	//エネミー
-	for (int i = 0; i < enemyMaxNum; i++) {
-		if (enemyAlive[i])
-		{
-			enemy[i]->Draw();
-		}
-	}
+	////エネミー
+	//for (int i = 0; i < enemyMaxNum; i++) {
+	//	if (enemyAlive[i])
+	//	{
+	//		enemy[i]->Draw();
+	//	}
+	//}
 
-
-	//ModelObj::PreDraw(cmdList);
-	//ModelObj::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画

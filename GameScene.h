@@ -63,6 +63,8 @@ private: //メンバ変数
 #pragma endregion
 
 #pragma region 関数
+private:
+	bool CollisionBalltoBall(XMFLOAT3 aPos, float aRadius, XMFLOAT3 bPos, float bRadius);
 public: //メンバ関数
 	//コンストラクタ
 	GameScene();

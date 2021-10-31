@@ -22,11 +22,19 @@ void PlayerBullet::Initialize(DirectXCommon* dxCommon)
 
 	bulletObj = BulletModel::Create();
 	bulletObj->Update();
+	moveVector = { 0,0,0 };
+	isAlive = false;
 }
 
 void PlayerBullet::Update()
 {
-	bulletObj->SetPosition(position);
+	if (isAlive == true)
+	{
+		position.x = position.x + moveVector.x;
+		position.y = position.y + moveVector.y;
+		position.z = position.z + moveVector.z;
+		bulletObj->SetPosition(position);
+	}
 	bulletObj->Update();
 }
 
